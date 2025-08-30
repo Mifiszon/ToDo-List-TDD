@@ -1,7 +1,7 @@
 FROM php:8.3-fpm
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils vim curl debconf \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils vim curl debconf libicu-dev \
     subversion git apt-transport-https \
     build-essential locales acl mailutils wget nodejs zip unzip \
     gnupg gnupg1 gnupg2 \
@@ -17,16 +17,26 @@ RUN apt-get update && \
     docker-php-ext-install -j$(nproc) gd && \
     docker-php-source delete
 
-# Install MySQL extension
-RUN docker-php-source extract && \
-    docker-php-ext-install pdo_mysql zip && \
-    docker-php-source delete
-
-# Install Intl
+# Install MySQL, ZIP, Intl extensions
 RUN docker-php-source extract && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install intl && \
+    docker-php-ext-install pdo_mysql zip intl && \
     docker-php-source delete
+
+# Install dependencies for pecl_http and enable the extension
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libcurl4-openssl-dev \
+        libevent-dev \
+        libidn2-0-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# pecl_http depends on raphf
+RUN pecl install raphf && docker-php-ext-enable raphf
+
+# Install and enable pecl_http (ext-http)
+# The printf provides a blank answer to any optional prompts
+RUN printf "\n" | pecl install pecl_http && docker-php-ext-enable http
+
 
 # Setup php.ini
 COPY php.ini /usr/local/etc/php/php.ini

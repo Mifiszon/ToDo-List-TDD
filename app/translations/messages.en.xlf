@@ -66,6 +66,26 @@
         <source>action.back_to_list</source>
         <target>Back to list</target>
       </trans-unit>
+      <trans-unit id="label.comment">
+        <source>label.comment</source>
+        <target>Comment</target>
+      </trans-unit>
+      <trans-unit id="label.category">
+        <source>label.category</source>
+        <target>Category</target>
+      </trans-unit>
+      <trans-unit id="title.category_list">
+        <source>title.category_list</source>
+        <target>Category List</target>
+      </trans-unit>
+      <trans-unit id="title.category_details">
+        <source>title.category_details</source>
+        <target>Category Details</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_tasks">
+          <source>action.back_to_tasks</source>
+          <target>Back to tasks</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

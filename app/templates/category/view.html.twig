@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.category_details'|trans({'%id%': category.id}) }}{% endblock %}
+
+{% block body %}
+    <h1>{{ category.title }}</h1>
+    <dl class="dl-horizontal">
+        <dt>{{ 'label.id'|trans }}</dt>
+        <dd>{{ category.id }}</dd>
+        <dt>{{ 'label.created_at'|trans }}</dt>
+        <dd>{{ category.createdAt|format_date('long') }}</dd>
+    </dl>
+
+    <p>
+        <a href="{{ url('category_index') }}" class="btn btn-outline-primary btn-sm">{{ 'action.back_to_list'|trans }}</a>
+    </p>
+{% endblock %}

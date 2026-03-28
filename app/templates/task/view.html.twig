@@ -6,19 +6,37 @@
 
 {% block body %}
     <h1>{{ 'title.task_details'|trans({'%id%': task.id|default('')}) }}</h1>
-    {% if task is defined and task|length %}
+
+    {% if task is defined and task is not null %}
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ task.id }}</dd>
+
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ task.createdAt|format_date('long') }}</dd>
+
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ task.updatedAt|format_date('long') }}</dd>
+
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  task.title }}</dd>
+            <dd>{{ task.title }}</dd>
+
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{  task.category.title }}</dd>
+
+            {# Dodajemy sekcję komentarza #}
+            <dt>{{ 'label.comment'|trans }}</dt>
+            <dd>
+                {% if task.comment is not empty %}
+                    {{ task.comment|nl2br }}
+                {% else %}
+                    <span class="text-muted">-</span>
+                {% endif %}
+            </dd>
         </dl>
+
         <p>
-            <a href="{{ url('task_index') }}" class="btn btn-primary btn-sm" title="{{ 'action.back_to_list'|trans }}">
+            <a href="{{ url('task_index') }}" class="btn btn-outline-primary btn-sm" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}
             </a>
         </p>

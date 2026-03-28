@@ -1,21 +1,23 @@
 <?php
 
 /**
- * Task entity.
+ * Category entity.
  */
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class Task.
+ * Class Category.
  */
-#[ORM\Entity(repositoryClass: TaskRepository::class)]
-#[ORM\Table(name: 'tasks')]
-class Task
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'categories')]
+#[ORM\UniqueConstraint(name: 'uq_categories_title', columns: ['title'])]
+#[UniqueEntity(fields: ['title'])]
+class Category
 {
     /**
      * Primary key.
@@ -28,7 +30,7 @@ class Task
     /**
      * Title.
      */
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 64)]
     private ?string $title = null;
 
     /**
@@ -44,22 +46,7 @@ class Task
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
-     * @var string|null
-     */
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $comment = null;
-
-    /**
-     * Category.
-     *
-     * @var ?Category
-     */
-    #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
-
-    /**
-     * Getter for ID.
+     * Getter for Id.
      *
      * @return int|null Id
      */
@@ -126,45 +113,5 @@ class Task
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string|null $comment
-     *
-     * @return $this
-     */
-    public function setComment(?string $comment): static
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
-
-    /**
-     * @return Category|null
-     */
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param Category|null $category
-     *
-     * @return $this
-     */
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
     }
 }

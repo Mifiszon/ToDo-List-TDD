@@ -22,6 +22,18 @@
         <source>label.tags</source>
         <target>Tags</target>
       </trans-unit>
+      <trans-unit id="label.created_at">
+        <source>label.created_at</source>
+        <target>Created at</target>
+      </trans-unit>
+      <trans-unit id="label.updated_at">
+        <source>label.updated_at</source>
+        <target>Updated at</target>
+      </trans-unit>
+      <trans-unit id="action.view">
+        <source>action.view</source>
+        <target>View</target>
+      </trans-unit>
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
         <target>List is empty.</target>
@@ -37,6 +49,22 @@
       <trans-unit id="title.record_view">
         <source>title.record_view</source>
         <target>Record view #%id%</target>
+      </trans-unit>
+      <trans-unit id="title.task_list">
+        <source>title.task_list</source>
+        <target>Task list</target>
+      </trans-unit>
+      <trans-unit id="title.task_view">
+        <source>title.task_view</source>
+        <target>Task details #%id%</target>
+      </trans-unit>
+      <trans-unit id="title.task_details">
+        <source>title.task_details</source>
+        <target>Task details #%id%</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_list">
+        <source>action.back_to_list</source>
+        <target>Back to list</target>
       </trans-unit>
     </body>
   </file>

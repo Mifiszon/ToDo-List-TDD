@@ -84,6 +84,16 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "static-analysis": [
+            "./vendor/bin/phpcs --config-set installed_paths $(realpath vendor/escapestudios/symfony2-coding-standard)",
+            "./vendor/bin/phpcs --config-set default_standard Symfony",
+            "./vendor/bin/phpcs --standard=Symfony src/ --ignore=Kernel.php",
+            "./vendor/bin/phpcs --standard=Symfony tests/  --ignore=object-mapper.php",
+            "./vendor/bin/php-cs-fixer fix src/ --rules=@Symfony,@PSR1,@PSR2,@PSR12",
+            "./vendor/bin/php-cs-fixer fix tests/ --rules=@Symfony,@PSR1,@PSR2,@PSR12",
+            "./vendor/bin/rector process src",
+            "./vendor/bin/rector process tests"
         ]
     },
     "conflict": {
@@ -96,7 +106,11 @@
         }
     },
     "require-dev": {
+        "escapestudios/symfony2-coding-standard": "^3.18",
+        "friendsofphp/php-cs-fixer": "^3.94",
         "phpunit/phpunit": "^13.0",
+        "rector/rector": "^2.3",
+        "squizlabs/php_codesniffer": "^4.0",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
         "symfony/debug-bundle": "7.4.*",

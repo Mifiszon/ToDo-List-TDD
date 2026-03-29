@@ -7,6 +7,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -46,7 +48,21 @@ class Category
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
-     * Getter for Id.
+     * Tasks.
+     */
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'category')]
+    private Collection $tasks;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
+
+    /**
+     * Getter for ID.
      *
      * @return int|null Id
      */
@@ -113,5 +129,13 @@ class Category
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
     }
 }

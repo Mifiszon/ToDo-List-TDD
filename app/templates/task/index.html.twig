@@ -19,11 +19,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'task.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'task.title') }}</th>
-                <th style="background-color: #f8f9fa;">
-                    <a href="{{ url('category_index') }}" class="btn btn-sm btn-outline-primary w-100">
-                        <i class="bi bi-folder2-open"></i> {{ 'label.category'|trans }}
-                    </a>
-                </th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -36,7 +32,7 @@
                     <td>{{ task.title }}</td>
                     <td>{{ task.category.title }}</td>
                     <td>
-                        <a href="{{ url('task_view', {id: task.id}) }}" class="btn btn-outline-primary btn-sm"  title="{{ 'action.view'|trans }}">
+                        <a href="{{ url('task_view', {id: task.id}) }}" class="btn btn-primary btn-sm"  title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
                     </td>

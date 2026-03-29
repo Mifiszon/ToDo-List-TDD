@@ -43,18 +43,13 @@ class Task
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
     /**
      * Category.
-     *
-     * @var ?Category
      */
-    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY', inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
@@ -128,17 +123,12 @@ class Task
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @return string|null
-     */
     public function getComment(): ?string
     {
         return $this->comment;
     }
 
     /**
-     * @param string|null $comment
-     *
      * @return $this
      */
     public function setComment(?string $comment): static
@@ -148,17 +138,12 @@ class Task
         return $this;
     }
 
-    /**
-     * @return Category|null
-     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
     /**
-     * @param Category|null $category
-     *
      * @return $this
      */
     public function setCategory(?Category $category): static

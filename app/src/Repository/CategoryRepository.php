@@ -41,6 +41,8 @@ class CategoryRepository extends ServiceEntityRepository
      */
     public function queryAll(): QueryBuilder
     {
-        return $this->createQueryBuilder('category');
+        return $this->createQueryBuilder('category')
+            ->select('category', 'partial tasks.{id}')
+            ->join('category.tasks', 'tasks');
     }
 }

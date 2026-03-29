@@ -16,9 +16,9 @@
             <a href="{{ url('category_index') }}" class="btn btn-outline-primary btn-sm">{{ 'action.back_to_list'|trans }}</a>
         </p>
     {% else %}
-        <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            {{ 'message.record_not_found'|trans }}
-        </div>
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.record_not_found'|trans
+        } %}
     {% endif %}
 {% endblock %}

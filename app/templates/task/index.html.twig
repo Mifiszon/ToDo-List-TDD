@@ -46,8 +46,9 @@
         </div>
 
     {% else %}
-        <div class="alert alert-warning" role="alert">
-            {{ 'message.empty_list'|trans }}
-        </div>
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
     {% endif %}
 {% endblock %}

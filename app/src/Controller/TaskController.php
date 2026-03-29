@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Task controller.
  */
@@ -6,8 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Repository\TaskRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Service\TaskServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -20,11 +20,18 @@ use Symfony\Component\Routing\Attribute\Route;
 class TaskController extends AbstractController
 {
     /**
+     * Constructor.
+     *
+     * @param TaskServiceInterface $taskService Task service
+     */
+    public function __construct(private readonly TaskServiceInterface $taskService)
+    {
+    }
+
+    /**
      * Index action.
      *
-     * @param TaskRepository     $taskRepository Task repository
-     * @param PaginatorInterface $paginator      Paginator
-     * @param int                $page           Default page number
+     * @param int $page Page number
      *
      * @return Response HTTP response
      */
@@ -32,18 +39,9 @@ class TaskController extends AbstractController
         name: 'task_index',
         methods: ['GET']
     )]
-    public function index(TaskRepository $taskRepository, PaginatorInterface $paginator, #[MapQueryParameter] int $page = 1): Response
+    public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $paginator->paginate(
-            $taskRepository->queryAll(),
-            $page,
-            TaskRepository::PAGINATOR_ITEMS_PER_PAGE,
-            [
-                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title'],
-                'defaultSortFieldName' => 'task.updatedAt',
-                'defaultSortDirection' => 'desc',
-            ]
-        );
+        $pagination = $this->taskService->getPaginatedList($page);
 
         return $this->render('task/index.html.twig', ['pagination' => $pagination]);
     }

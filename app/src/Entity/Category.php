@@ -54,7 +54,7 @@ class Category
     private Collection $tasks;
 
     /**
-     *
+     * Construct.
      */
     public function __construct()
     {

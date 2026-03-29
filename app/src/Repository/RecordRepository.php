@@ -61,7 +61,7 @@ class RecordRepository
     }
 
     /**
-     * Find one by Id.
+     * Find one by ID.
      *
      * @param int $id Id
      *

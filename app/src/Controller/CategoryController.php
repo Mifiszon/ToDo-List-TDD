@@ -6,8 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Repository\CategoryRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Service\CategoryServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -20,11 +19,18 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends AbstractController
 {
     /**
+     * Constructor.
+     *
+     * @param CategoryServiceInterface $categoryService Category service
+     */
+    public function __construct(private readonly CategoryServiceInterface $categoryService)
+    {
+    }
+
+    /**
      * Index action.
      *
-     * @param CategoryRepository $categoryRepository Category repository
-     * @param PaginatorInterface $paginator          Paginator
-     * @param int                $page               Default page number
+     * @param int $page Page number
      *
      * @return Response HTTP response
      */
@@ -32,18 +38,9 @@ class CategoryController extends AbstractController
         name: 'category_index',
         methods: ['GET']
     )]
-    public function index(CategoryRepository $categoryRepository, PaginatorInterface $paginator, #[MapQueryParameter] int $page = 1): Response
+    public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $paginator->paginate(
-            $categoryRepository->queryAll(),
-            $page,
-            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE,
-            [
-                'sortFieldAllowList' => ['category.id', 'category.createdAt', 'category.updatedAt', 'category.title'],
-                'defaultSortFieldName' => 'category.updatedAt',
-                'defaultSortDirection' => 'desc',
-            ]
-        );
+        $pagination = $this->categoryService->getPaginatedList($page);
 
         return $this->render('category/index.html.twig', ['pagination' => $pagination]);
     }

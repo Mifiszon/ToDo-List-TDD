@@ -41,8 +41,9 @@
             </a>
         </p>
     {% else %}
-        <p>
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
             {{ 'message.record_not_found'|trans }}
-        </p>
+        </div>
     {% endif %}
 {% endblock %}

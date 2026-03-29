@@ -24,8 +24,17 @@
                     <td>{{ category.id }}</td>
                     <td>{{ category.title }}</td>
                     <td>
+                        <a href="{{ url('category_create') }}" class="btn btn-success btn-sm">
+                            {{ 'action.create'|trans }}
+                        </a>
                         <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-primary btn-sm">
                             {{ 'action.view'|trans }}
+                        </a>
+                        <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-warning btn-sm">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-danger btn-sm">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>
@@ -44,6 +53,8 @@
         </div>
 
     {% else %}
-        <p>{{ 'message.empty_list'|trans }}</p>
+        <div class="alert alert-warning" role="alert">
+            {{ 'message.empty_list'|trans }}
+        </div>
     {% endif %}
 {% endblock %}

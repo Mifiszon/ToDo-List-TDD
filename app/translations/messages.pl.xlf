@@ -4,7 +4,7 @@
     <body>
       <trans-unit id="label.actions">
         <source>label.actions</source>
-        <target>Akcje</target>
+        <target>Działania</target>
       </trans-unit>
       <trans-unit id="label.id">
         <source>label.id</source>
@@ -79,12 +79,52 @@
         <target>Lista kategorii</target>
       </trans-unit>
       <trans-unit id="title.category_details">
-         <source>title.category_details</source>
-         <target>Szczegóły kategorii</target>
+        <source>title.category_details</source>
+        <target>Szczegóły kategorii</target>
       </trans-unit>
       <trans-unit id="action.back_to_tasks">
-          <source>action.back_to_tasks</source>
-          <target>Powrót do listy zadań</target>
+        <source>action.back_to_tasks</source>
+        <target>Powrót do listy zadań</target>
+      </trans-unit>
+      <trans-unit id="action.save">
+        <source>action.save</source>
+        <target>Zapisz</target>
+      </trans-unit>
+      <trans-unit id="title.category_create">
+        <source>title.category_create</source>
+        <target>Nowa kategoria</target>
+      </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Utworzono pomyślnie!</target>
+      </trans-unit>
+      <trans-unit id="action.create">
+        <source>action.create</source>
+        <target>Stwórz</target>
+      </trans-unit>
+      <trans-unit id="action.delete">
+        <source>action.delete</source>
+        <target>Usuń</target>
+      </trans-unit>
+      <trans-unit id="action.edit">
+        <source>action.edit</source>
+        <target>Edytuj</target>
+      </trans-unit>
+      <trans-unit id="title.category_delete">
+        <source>title.category_delete</source>
+        <target>Usuń kategorię</target>
+      </trans-unit>
+      <trans-unit id="title.category_edit">
+        <source>title.category_edit</source>
+        <target>Edytuj kategorię</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Usunięto pomyślnie!</target>
+      </trans-unit>
+      <trans-unit id="message.edited_successfully">
+        <source>message.edited_successfully</source>
+        <target>Edytowano pomyślnie!</target>
       </trans-unit>
     </body>
   </file>

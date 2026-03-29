@@ -3,15 +3,22 @@
 {% block title %}{{ 'title.category_details'|trans({'%id%': category.id}) }}{% endblock %}
 
 {% block body %}
-    <h1>{{ category.title }}</h1>
-    <dl class="dl-horizontal">
-        <dt>{{ 'label.id'|trans }}</dt>
-        <dd>{{ category.id }}</dd>
-        <dt>{{ 'label.created_at'|trans }}</dt>
-        <dd>{{ category.createdAt|format_date('long') }}</dd>
-    </dl>
+    {% if category is defined and category is not null %}
+        <h1>{{ category.title }}</h1>
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ category.id }}</dd>
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ category.createdAt|format_date('long') }}</dd>
+        </dl>
 
-    <p>
-        <a href="{{ url('category_index') }}" class="btn btn-outline-primary btn-sm">{{ 'action.back_to_list'|trans }}</a>
-    </p>
+        <p>
+            <a href="{{ url('category_index') }}" class="btn btn-outline-primary btn-sm">{{ 'action.back_to_list'|trans }}</a>
+        </p>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            {{ 'message.record_not_found'|trans }}
+        </div>
+    {% endif %}
 {% endblock %}

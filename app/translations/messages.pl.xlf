@@ -130,6 +130,10 @@
         <source>message.form_error</source>
         <target>Błąd formularza.</target>
       </trans-unit>
+      <trans-unit id="message.category_contains_tasks">
+        <source>message.category_contains_tasks</source>
+        <target>Kategoria zawiera zadania!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

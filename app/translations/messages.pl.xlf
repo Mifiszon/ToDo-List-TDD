@@ -134,6 +134,22 @@
         <source>message.category_contains_tasks</source>
         <target>Kategoria zawiera zadania!</target>
       </trans-unit>
+      <trans-unit id="title.task_create">
+        <source>title.task_create</source>
+        <target>Stwórz zadanie</target>
+      </trans-unit>
+      <trans-unit id="title.task_edit">
+        <source>title.task_edit</source>
+        <target>Edytuj zadanie</target>
+      </trans-unit>
+      <trans-unit id="title.task_delete">
+        <source>title.task_delete</source>
+        <target>Usuń zadanie</target>
+      </trans-unit>
+      <trans-unit id="label.none">
+        <source>label.none</source>
+        <target>Brak</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

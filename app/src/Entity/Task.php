@@ -139,12 +139,17 @@ class Task
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * @return string|null
+     */
     public function getComment(): ?string
     {
         return $this->comment;
     }
 
     /**
+     * @param string|null $comment
+     *
      * @return $this
      */
     public function setComment(?string $comment): static
@@ -154,12 +159,17 @@ class Task
         return $this;
     }
 
+    /**
+     * @return Category|null
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
     /**
+     * @param Category|null $category
+     *
      * @return $this
      */
     public function setCategory(?Category $category): static
@@ -169,11 +179,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     *
+     * @return $this
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;

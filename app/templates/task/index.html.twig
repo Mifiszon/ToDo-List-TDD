@@ -32,8 +32,17 @@
                     <td>{{ task.title }}</td>
                     <td>{{ task.category.title }}</td>
                     <td>
-                        <a href="{{ url('task_view', {id: task.id}) }}" class="btn btn-primary btn-sm"  title="{{ 'action.view'|trans }}">
+                        <a href="{{ url('task_create') }}" class="btn btn-success btn-sm">
+                            {{ 'action.create'|trans }}
+                        </a>
+                        <a href="{{ url('task_view', {id: task.id}) }}" class="btn btn-primary btn-sm">
                             {{ 'action.view'|trans }}
+                        </a>
+                        <a href="{{ url('task_edit', {id: task.id}) }}" class="btn btn-warning btn-sm">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        <a href="{{ url('task_delete', {id: task.id}) }}" class="btn btn-danger btn-sm">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>

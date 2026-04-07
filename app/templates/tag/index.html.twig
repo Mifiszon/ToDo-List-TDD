@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.tag_list'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.tag_list'|trans }}</h1>
+
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'tag.updatedAt') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tag in pagination.items %}
+                <tr>
+                    <td>{{ tag.id }}</td>
+                    <td>{{ tag.title }}</td>
+                    <td>{{ tag.updatedAt|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a href="{{ url('tag_create') }}" class="btn btn-success">
+                            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
+                        </a>
+                        <a href="{{ url('tag_view', {id: tag.id}) }}" class="btn btn-primary btn-sm">
+                            {{ 'action.view'|trans }}
+                        </a>
+                        <a href="{{ url('tag_edit', {id: tag.id}) }}" class="btn btn-warning btn-sm">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        <a href="{{ url('tag_delete', {id: tag.id}) }}" class="btn btn-danger btn-sm">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ url('task_index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_tasks'|trans|default('Back to tasks') }}
+            </a>
+        </div>
+
+    {% else %}
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
+
+    {% endif %}
+{% endblock %}

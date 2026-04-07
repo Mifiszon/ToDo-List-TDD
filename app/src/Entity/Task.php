@@ -7,10 +7,12 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
-use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Task.
@@ -31,46 +33,64 @@ class Task
      * Title.
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $title = null;
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
+    /**
+     * Comment.
+     */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 3, max: 65535)]
     private ?string $comment = null;
 
     /**
      * Category.
      */
-    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY', inversedBy: 'tasks')]
+    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(Category::class)]
     private ?Category $category = null;
 
     /**
-     * Slug.
-     * @var string|null
+     * Tags.
+     *
+     * @var Collection<int, Tag>
      */
-    #[ORM\Column(type: 'string', length: 64)]
-    #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug;
+    #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'tasks_tags')]
+    #[Assert\Valid]
+    private Collection $tags;
 
     /**
-     * Getter for ID.
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * Getter for Id.
      *
      * @return int|null Id
      */
@@ -140,7 +160,9 @@ class Task
     }
 
     /**
-     * @return string|null
+     * Getter for comment.
+     *
+     * @return string|null Comment
      */
     public function getComment(): ?string
     {
@@ -148,19 +170,19 @@ class Task
     }
 
     /**
-     * @param string|null $comment
+     * Setter for comment.
      *
-     * @return $this
+     * @param string|null $comment Comment
      */
-    public function setComment(?string $comment): static
+    public function setComment(?string $comment): void
     {
         $this->comment = $comment;
-
-        return $this;
     }
 
     /**
-     * @return Category|null
+     * Getter for category.
+     *
+     * @return Category|null Category
      */
     public function getCategory(): ?Category
     {
@@ -168,34 +190,44 @@ class Task
     }
 
     /**
-     * @param Category|null $category
+     * Setter for category.
      *
-     * @return $this
+     * @param Category|null $category Category
      */
-    public function setCategory(?Category $category): static
+    public function setCategory(?Category $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 
     /**
-     * @return string|null
-     */
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string $slug
+     * Getter for tags.
      *
-     * @return $this
+     * @return Collection<int, Tag> Tags collection
      */
-    public function setSlug(string $slug): static
+    public function getTags(): Collection
     {
-        $this->slug = $slug;
+        return $this->tags;
+    }
 
-        return $this;
+    /**
+     * Add tag.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+    }
+
+    /**
+     * Remove Tag.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function removeTag(Tag $tag): void
+    {
+        $this->tags->removeElement($tag);
     }
 }

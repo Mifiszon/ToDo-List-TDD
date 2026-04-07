@@ -65,7 +65,7 @@ class Task
     /**
      * Category.
      */
-    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY', inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Type(Category::class)]
@@ -90,7 +90,7 @@ class Task
     }
 
     /**
-     * Getter for Id.
+     * Getter for ID.
      *
      * @return int|null Id
      */

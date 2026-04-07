@@ -7,7 +7,6 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -34,26 +33,20 @@ class Tag
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt;
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt;
 
     /**
      * Slug.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Gedmo\Slug(fields: ['title'])]
@@ -92,9 +85,9 @@ class Tag
     /**
      * Getter for created at.
      *
-     * @return DateTimeImmutable|null Created at
+     * @return \DateTimeImmutable|null Created at
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -102,9 +95,9 @@ class Tag
     /**
      * Setter for created at.
      *
-     * @param DateTimeImmutable|null $createdAt Created at
+     * @param \DateTimeImmutable|null $createdAt Created at
      */
-    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -112,9 +105,9 @@ class Tag
     /**
      * Getter for updated at.
      *
-     * @return DateTimeImmutable|null Updated at
+     * @return \DateTimeImmutable|null Updated at
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -122,9 +115,9 @@ class Tag
     /**
      * Setter for updated at.
      *
-     * @param DateTimeImmutable|null $updatedAt Updated at
+     * @param \DateTimeImmutable|null $updatedAt Updated at
      */
-    public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

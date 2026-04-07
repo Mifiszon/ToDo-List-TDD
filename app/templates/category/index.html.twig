@@ -4,6 +4,13 @@
 
 {% block body %}
     <h1>{{ 'title.category_list'|trans }}</h1>
+
+    <div class="mb-3">
+        <a href="{{ url('category_create') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
+        </a>
+    </div>
+
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -14,6 +21,8 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'category.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -22,20 +31,21 @@
             {% for category in pagination.items %}
                 <tr>
                     <td>{{ category.id }}</td>
+                    <td>{{ category.createdAt|format_date('long') }}</td>
+                    <td>{{ category.updatedAt|format_date('long') }}</td>
                     <td>{{ category.title }}</td>
                     <td>
-                        <a href="{{ url('category_create') }}" class="btn btn-success btn-sm">
-                            {{ 'action.create'|trans }}
-                        </a>
-                        <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-primary btn-sm">
-                            {{ 'action.view'|trans }}
-                        </a>
-                        <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-warning btn-sm">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                        <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-danger btn-sm">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-primary btn-sm" title="{{ 'action.view'|trans }}">
+                                {{ 'action.view'|trans }}
+                            </a>
+                            <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-warning btn-sm" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-danger btn-sm" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

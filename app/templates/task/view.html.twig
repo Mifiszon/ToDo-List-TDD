@@ -21,10 +21,18 @@
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{ task.title }}</dd>
 
+            <dt>{{ 'label.tags'|trans }}</dt>
+            <dd>
+                {% if task.tags is not empty %}
+                    {{ task.tags|map(t => t.title)|join(', ') }}
+                {% else %}
+                    {{ 'label.none'|trans }}
+                {% endif %}
+            </dd>
+
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  task.category.title }}</dd>
 
-            {# Dodajemy sekcję komentarza #}
             <dt>{{ 'label.comment'|trans }}</dt>
             <dd>
                 {% if task.comment is not empty %}

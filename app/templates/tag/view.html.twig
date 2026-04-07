@@ -3,17 +3,24 @@
 {% block title %}{{ 'title.tag_details'|trans({'%id%': tag.id}) }}{% endblock %}
 
 {% block body %}
-    {% if tag is tag and tag is not null %}
+    {# Sprawdzamy czy zmienna tag istnieje i czy nie jest pusta #}
+    {% if tag is defined and tag is not empty %}
         <h1>{{ tag.title }}</h1>
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ tag.id }}</dd>
+
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ tag.createdAt|format_date('long') }}</dd>
+
+            <dt>{{ 'label.updated_at'|trans }}</dt>
+            <dd>{{ tag.updatedAt|format_date('long') }}</dd>
         </dl>
 
         <p>
-            <a href="{{ url('tagindex') }}" class="btn btn-outline-primary btn-sm">{{ 'action.back_to_list'|trans }}</a>
+            <a href="{{ url('tag_index') }}" class="btn btn-outline-primary btn-sm">
+                {{ 'action.back_to_list'|trans }}
+            </a>
         </p>
     {% else %}
         {% include 'default/_single_alert_message.html.twig' with {

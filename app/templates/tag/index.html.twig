@@ -5,6 +5,12 @@
 {% block body %}
     <h1>{{ 'title.tag_list'|trans }}</h1>
 
+    <div class="mb-3">
+        <a href="{{ url('tag_create') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
+        </a>
+    </div>
+
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -15,8 +21,9 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'tag.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'tag.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -24,21 +31,21 @@
             {% for tag in pagination.items %}
                 <tr>
                     <td>{{ tag.id }}</td>
+                    <td>{{ tag.createdAt|format_date('long') }}</td>
+                    <td>{{ tag.updatedAt|format_date('long') }}</td>
                     <td>{{ tag.title }}</td>
-                    <td>{{ tag.updatedAt|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        <a href="{{ url('tag_create') }}" class="btn btn-success">
-                            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
-                        </a>
-                        <a href="{{ url('tag_view', {id: tag.id}) }}" class="btn btn-primary btn-sm">
-                            {{ 'action.view'|trans }}
-                        </a>
-                        <a href="{{ url('tag_edit', {id: tag.id}) }}" class="btn btn-warning btn-sm">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                        <a href="{{ url('tag_delete', {id: tag.id}) }}" class="btn btn-danger btn-sm">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url('tag_view', {id: tag.id}) }}" class="btn btn-primary btn-sm" title="{{ 'action.view'|trans }}">
+                                {{ 'action.view'|trans }}
+                            </a>
+                            <a href="{{ url('tag_edit', {id: tag.id}) }}" class="btn btn-warning btn-sm" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a href="{{ url('tag_delete', {id: tag.id}) }}" class="btn btn-danger btn-sm" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
@@ -60,6 +67,5 @@
             type: 'warning',
             message: 'message.empty_list'|trans
         } %}
-
     {% endif %}
 {% endblock %}

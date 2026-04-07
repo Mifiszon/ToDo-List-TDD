@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Task type.
  */
@@ -7,8 +6,8 @@
 namespace App\Form\Type;
 
 use App\Entity\Category;
-use App\Entity\Tag;
 use App\Entity\Task;
+use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +19,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TaskType extends AbstractType
 {
+    /**
+     * Constructor.
+     *
+     * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
+     */
+    public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
+    {
+    }
+
     /**
      * Builds the form.
      *
@@ -40,14 +48,15 @@ class TaskType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]
-        );
+            ]);
         $builder->add(
             'category',
             EntityType::class,
             [
                 'class' => Category::class,
-                'choice_label' => fn (Category $category): ?string => $category->getTitle(),
+                'choice_label' => function ($category): string {
+                    return $category->getTitle();
+                },
                 'label' => 'label.category',
                 'placeholder' => 'label.none',
                 'required' => true,
@@ -55,18 +64,16 @@ class TaskType extends AbstractType
         );
         $builder->add(
             'tags',
-            EntityType::class,
+            TextType::class,
             [
-                'class' => Tag::class,
-                'choice_label' => function ($tag): string {
-                    return $tag->getTitle();
-                },
                 'label' => 'label.tags',
-                'placeholder' => 'label.none',
                 'required' => false,
-                'expanded' => true,
-                'multiple' => true,
+                'attr' => ['max_length' => 128],
             ]
+        );
+
+        $builder->get('tags')->addModelTransformer(
+            $this->tagsDataTransformer
         );
     }
 
@@ -87,8 +94,6 @@ class TaskType extends AbstractType
      * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
      *
      * @return string The prefix of the template block name
-     *
-     * @psalm-return 'task'
      */
     public function getBlockPrefix(): string
     {

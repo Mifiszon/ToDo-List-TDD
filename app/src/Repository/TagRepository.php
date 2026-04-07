@@ -15,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * Class TagRepository.
  *
  * @extends ServiceEntityRepository<Tag>
+ *
+ * @method findOneByTitle(string $title)
  */
 class TagRepository extends ServiceEntityRepository
 {

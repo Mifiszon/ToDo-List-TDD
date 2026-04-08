@@ -7,6 +7,7 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -61,6 +62,25 @@ class TaskRepository extends ServiceEntityRepository
         return $qb->select($qb->expr()->countDistinct('task.id'))
             ->where('task.category = :category')
             ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count tasks by tag.
+     *
+     * @param Tag $tag Tag
+     *
+     * @return int Number of tasks in tag
+     */
+    public function countByTag(Tag $tag): int
+    {
+        $qb = $this->createQueryBuilder('task');
+
+        return (int) $qb->select($qb->expr()->countDistinct('task.id'))
+            ->join('task.tags', 'tag')
+            ->where('tag = :tag')
+            ->setParameter(':tag', $tag)
             ->getQuery()
             ->getSingleScalarResult();
     }

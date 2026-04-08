@@ -45,4 +45,13 @@ interface TagServiceInterface
      * @return Tag|null Tag entity
      */
     public function findOneByTitle(string $title): ?Tag;
+
+    /**
+     * Can Tag be deleted?
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Tag $tag): bool;
 }

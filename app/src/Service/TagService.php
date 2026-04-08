@@ -8,6 +8,9 @@ namespace App\Service;
 
 use App\Entity\Tag;
 use App\Repository\TagRepository;
+use App\Repository\TaskRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -26,10 +29,11 @@ class TagService implements TagServiceInterface
     /**
      * Constructor.
      *
-     * @param TagRepository      $tagRepository Tag repository
+     * @param TagRepository      $tagRepository  Tag repository
      * @param PaginatorInterface $paginator      Paginator
+     * @param TaskRepository     $taskRepository Task repository
      */
-    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator, private readonly TaskRepository $taskRepository)
     {
     }
 
@@ -52,6 +56,24 @@ class TagService implements TagServiceInterface
                 'defaultSortDirection' => 'desc',
             ]
         );
+    }
+
+    /**
+     * Can Tag be deleted?
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Tag $tag): bool
+    {
+        try {
+            $result = $this->taskRepository->countByTag($tag);
+
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
     }
 
     /**

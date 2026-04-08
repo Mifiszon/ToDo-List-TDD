@@ -169,6 +169,15 @@ class TagController extends AbstractController
     )]
     public function delete(Request $request, Tag $tag): Response
     {
+        if (!$this->tagService->canBeDeleted($tag)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.tag_contains_tasks')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
         $form = $this->createForm(FormType::class, $tag, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),

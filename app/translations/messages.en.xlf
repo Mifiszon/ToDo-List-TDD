@@ -170,6 +170,10 @@
         <source>title.tag_delete</source>
         <target>Delete tag</target>
       </trans-unit>
+      <trans-unit id="message.tag_contains_tasks">
+        <source>message.tag_contains_tasks</source>
+        <target>Tag contains tasks!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

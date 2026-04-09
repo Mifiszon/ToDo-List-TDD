@@ -1,4 +1,4 @@
-# ToDo List WebApp TDD
+# ToDo List WebApp
 
 Test Driven Development
 

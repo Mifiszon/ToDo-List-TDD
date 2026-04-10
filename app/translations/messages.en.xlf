@@ -182,6 +182,26 @@
         <source>action.login</source>
         <target>Login</target>
       </trans-unit>
+      <trans-unit id="action.change_password">
+          <source>action.change_password</source>
+          <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="title.change_password">
+          <source>title.change_password</source>
+          <target>Password change</target>
+      </trans-unit>
+      <trans-unit id="label.new_password">
+          <source>label.new_password</source>
+          <target>New password</target>
+      </trans-unit>
+      <trans-unit id="label.repeat_password">
+          <source>label.repeat_password</source>
+          <target>Repeat password</target>
+      </trans-unit>
+      <trans-unit id="message.password_changed_successfully">
+          <source>message.password_changed_successfully</source>
+          <target>Password changed successfully</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

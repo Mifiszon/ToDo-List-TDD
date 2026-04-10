@@ -47,7 +47,10 @@ class TaskController extends AbstractController
     )]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $this->taskService->getPaginatedList($page);
+        /** @var User $author */
+        $author = $this->getUser();
+        $authorFilter = $this->isGranted('ROLE_ADMIN') ? null : $author;
+        $pagination = $this->taskService->getPaginatedList($page, $authorFilter);
 
         return $this->render('task/index.html.twig', ['pagination' => $pagination]);
     }
@@ -67,6 +70,15 @@ class TaskController extends AbstractController
     )]
     public function view(Task $task): Response
     {
+        if ($task->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('task_index');
+        }
+
         return $this->render(
             'task/view.html.twig',
             ['task' => $task]
@@ -127,6 +139,15 @@ class TaskController extends AbstractController
     )]
     public function edit(Request $request, Task $task): Response
     {
+        if ($task->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('task_index');
+        }
+
         $form = $this->createForm(
             TaskType::class,
             $task,
@@ -173,6 +194,15 @@ class TaskController extends AbstractController
     )]
     public function delete(Request $request, Task $task): Response
     {
+        if ($task->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('task_index');
+        }
+
         $form = $this->createForm(FormType::class, $task, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('task_delete', ['id' => $task->getId()]),

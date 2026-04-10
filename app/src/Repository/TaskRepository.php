@@ -9,6 +9,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Tag;
 use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -33,21 +34,24 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
+     * @param User|null $author
+     *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(?User $author = null): QueryBuilder
     {
-        return $this->createQueryBuilder('task')
-            ->select(
-                'task',
-                'category',
-                'tag',
-                'author'
-            )
+        $queryBuilder = $this->createQueryBuilder('task')
+            ->select('task', 'category', 'author')
             ->leftJoin('task.category', 'category')
-            ->leftJoin('task.tags', 'tag')
             ->leftJoin('task.author', 'author')
             ->orderBy('task.updatedAt', 'DESC');
+
+        if ($author) {
+            $queryBuilder->andWhere('task.author = :author')
+                ->setParameter('author', $author);
+        }
+
+        return $queryBuilder;
     }
 
     /**

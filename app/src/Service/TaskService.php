@@ -7,6 +7,7 @@
 namespace App\Service;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Repository\TaskRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -40,18 +41,19 @@ class TaskService implements TaskServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int       $page   Page number
+     * @param User|null $author Author
      *
      * @return PaginationInterface Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, ?User $author = null): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->taskRepository->queryAll(),
+            $this->taskRepository->queryAll($author),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
             [
-                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title', 'author.email'],
+                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title'. 'author.email'],
                 'defaultSortFieldName' => 'task.updatedAt',
                 'defaultSortDirection' => 'desc',
             ]

@@ -51,7 +51,7 @@ class TaskService implements TaskServiceInterface
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
             [
-                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title'],
+                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title', 'author.email'],
                 'defaultSortFieldName' => 'task.updatedAt',
                 'defaultSortDirection' => 'desc',
             ]

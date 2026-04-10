@@ -202,6 +202,10 @@
           <source>message.password_changed_successfully</source>
           <target>Hasło zostało zmienione</target>
       </trans-unit>
+      <trans-unit id="label.author">
+          <source>label.author</source>
+          <target>Autor</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

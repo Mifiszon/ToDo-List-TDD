@@ -26,6 +26,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'task.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'task.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}</th>
                 <th>
                     {{ 'label.tags'|trans }}
                     <a href="{{ url('tag_index') }}" title="{{ 'title.tag_list'|trans }}">
@@ -48,6 +49,7 @@
                     <td>{{ task.createdAt|format_date('long') }}</td>
                     <td>{{ task.updatedAt|format_date('long') }}</td>
                     <td>{{ task.title }}</td>
+                    <td>{{ task.author.email|default('-') }}</td>
                     <td>
                         {% if task.tags is not empty %}
                             {{ task.tags|map(t => t.title)|join(', ') }}

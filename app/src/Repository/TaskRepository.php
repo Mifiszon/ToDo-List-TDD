@@ -41,10 +41,12 @@ class TaskRepository extends ServiceEntityRepository
             ->select(
                 'task',
                 'category',
-                'tag'
+                'tag',
+                'author'
             )
             ->leftJoin('task.category', 'category')
             ->leftJoin('task.tags', 'tag')
+            ->leftJoin('task.author', 'author')
             ->orderBy('task.updatedAt', 'DESC');
     }
 

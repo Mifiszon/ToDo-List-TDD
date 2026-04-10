@@ -21,6 +21,15 @@
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{ task.title }}</dd>
 
+            <dt>{{ 'label.author'|trans }}</dt>
+            <dd>
+                {% if task.author is defined and task.author is not null %}
+                    <i class="bi bi-person"></i> {{ task.author.email }}
+                {% else %}
+                    <span class="text-muted">{{ 'label.none'|trans }}</span>
+                {% endif %}
+            </dd>
+
             <dt>{{ 'label.tags'|trans }}</dt>
             <dd>
                 {% if task.tags is not empty %}

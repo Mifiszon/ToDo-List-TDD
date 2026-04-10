@@ -9,17 +9,24 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Tag;
 use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
 
 /**
  * Class TaskFixtures.
+ *
+ * @psalm-suppress MissingConstructor
  */
 class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
+     *
+     * @psalm-suppress PossiblyNullPropertyFetch
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress UnusedClosureParam
      */
     public function loadData(): void
     {
@@ -30,7 +37,6 @@ class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInter
         $this->createMany(100, 'task', function (int $i) {
             $task = new Task();
             $task->setTitle($this->faker->sentence);
-            $task->setComment($this->faker->paragraph(3));
             $task->setCreatedAt(
                 \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
@@ -41,28 +47,38 @@ class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInter
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
-
-            /** @var Category $category */
+            $task->setComment($this->faker->realText(1024));
             $category = $this->getRandomReference('category', Category::class);
             $task->setCategory($category);
 
-            for ($j = 0; $j < $this->faker->numberBetween(0, 3); ++$j) {
-                /** @var Tag $tag */
-                $tag = $this->getRandomReference('tag', Tag::class);
+            /** @var Tag[] $tags */
+            $tags = $this->getRandomReferenceList(
+                'tag',
+                Tag::class,
+                $this->faker->numberBetween(0, 5)
+            );
+            foreach ($tags as $tag) {
                 $task->addTag($tag);
             }
+
+            /** @var User $author */
+            $author = $this->getRandomReference('user', User::class);
+            $task->setAuthor($author);
 
             return $task;
         });
     }
 
     /**
-     * Get dependencies.
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
      *
      * @return string[] of dependencies
+     *
+     * @psalm-return array{0: CategoryFixtures::class}
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class, TagFixtures::class];
+        return [CategoryFixtures::class, TagFixtures::class, UserFixtures::class];
     }
 }

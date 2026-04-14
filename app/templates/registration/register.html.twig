@@ -1,6 +1,6 @@
 {% include 'default/_form.html.twig' with {
-    page_title: 'Rejestracja',
+    page_title: 'title.register'|trans,
     form: form,
-    submit_label: 'Zarejestruj się',
-    extra_link: '<a href="' ~ path('app_login') ~ '">Masz konto? Zaloguj się</a>'
+    submit_label: 'action.register'|trans,
+    extra_link: '<a href="' ~ path('app_login') ~ '">' ~ 'message.already_have_account'|trans ~ '</a>'
 } %}

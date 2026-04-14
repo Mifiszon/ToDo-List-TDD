@@ -8,8 +8,6 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -23,9 +21,8 @@ class UserService implements UserServiceInterface
      *
      * @param UserRepository              $userRepository User repository
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param EntityManagerInterface      $entityManager  Entity manager
      */
-    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
 

@@ -206,6 +206,46 @@
           <source>label.author</source>
           <target>Autor</target>
       </trans-unit>
+      <trans-unit id="message.email_already_exists">
+          <source>message.email_already_exists</source>
+          <target>Ten email jest już zajęty</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+          <source>label.password</source>
+          <target>Hasło</target>
+      </trans-unit>
+      <trans-unit id="label.email">
+          <source>label.email</source>
+          <target>Email</target>
+      </trans-unit>
+      <trans-unit id="message.password_required">
+          <source>message.password_required</source>
+          <target>Hasło nie może być puste.</target>
+      </trans-unit>
+      <trans-unit id="message.password_too_short">
+          <source>message.password_too_short</source>
+          <target>Hasło musi mieć co najmniej {{ limit }} znaków.</target>
+      </trans-unit>
+      <trans-unit id="message.passwords_do_not_match">
+          <source>message.passwords_do_not_match</source>
+          <target>Podane hasła nie są identyczne.</target>
+      </trans-unit>
+      <trans-unit id="title.register">
+          <source>title.register</source>
+          <target>Rejestracja</target>
+      </trans-unit>
+      <trans-unit id="action.register">
+          <source>action.register</source>
+          <target>Zarejestruj się</target>
+      </trans-unit>
+      <trans-unit id="message.already_have_account">
+          <source>message.already_have_account</source>
+          <target>Masz już konto? Zaloguj się</target>
+      </trans-unit>
+      <trans-unit id="message.no_account">
+          <source>message.no_account</source>
+          <target>Nie masz jeszcze konta?</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

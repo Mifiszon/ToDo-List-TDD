@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Registration Form Type.
  */
@@ -29,16 +30,19 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'label.email',
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped' => false, // Kluczowe, bo nie wiążemy z encją bezpośrednio
+                'mapped' => false,
                 'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 6]),
+                    new NotBlank(message: 'message.password_required'),
+                    new Length(min: 6, minMessage: 'message.password_too_short'),
                 ],
-                'first_options'  => ['label' => 'Nowe hasło'],
-                'second_options' => ['label' => 'Powtórz hasło'],
+                'first_options' => ['label' => 'label.password'],
+                'second_options' => ['label' => 'label.repeat_password'],
+                'invalid_message' => 'message.passwords_do_not_match',
             ]);
     }
 
@@ -51,6 +55,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'translation_domain' => 'messages',
         ]);
     }
 }

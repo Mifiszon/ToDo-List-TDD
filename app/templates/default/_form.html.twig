@@ -33,4 +33,9 @@ parameters:
         </div>
     {% endif %}
     {{ form_end(form) }}
+    {% if extra_link is defined %}
+        <div class="mt-3 text-center">
+            {{ extra_link|raw }}
+        </div>
+    {% endif %}
 {% endblock %}

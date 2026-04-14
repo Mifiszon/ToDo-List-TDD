@@ -36,15 +36,21 @@
                     <td>{{ tag.title }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="{{ url('tag_view', {id: tag.id}) }}" class="btn btn-primary btn-sm" title="{{ 'action.view'|trans }}">
-                                {{ 'action.view'|trans }}
-                            </a>
-                            <a href="{{ url('tag_edit', {id: tag.id}) }}" class="btn btn-warning btn-sm" title="{{ 'action.edit'|trans }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                            <a href="{{ url('tag_delete', {id: tag.id}) }}" class="btn btn-danger btn-sm" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
+                            {% if is_granted('TAG_VIEW', tag) %}
+                                <a class="btn btn-primary" href="{{ url('tag_view', {id: tag.id}) }}" title="{{ 'action.view'|trans }}">
+                                    {{ 'action.view'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('TAG_EDIT', tag) %}
+                                <a class="btn btn-warning" href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                                    {{ 'action.edit'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('TAG_DELETE', tag) %}
+                                <a class="btn btn-danger" href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                                    {{ 'action.delete'|trans }}
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

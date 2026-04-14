@@ -36,15 +36,21 @@
                     <td>{{ category.title }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-primary btn-sm" title="{{ 'action.view'|trans }}">
-                                {{ 'action.view'|trans }}
-                            </a>
-                            <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-warning btn-sm" title="{{ 'action.edit'|trans }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                            <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-danger btn-sm" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
+                            {% if is_granted('CATEGORY_VIEW', category) %}
+                                <a class="btn btn-primary" href="{{ url('category_view', {id: category.id}) }}" title="{{ 'action.view'|trans }}">
+                                    {{ 'action.view'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('CATEGORY_EDIT', category) %}
+                                <a class="btn btn-warning" href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action.edit'|trans }}">
+                                    {{ 'action.edit'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('CATEGORY_DELETE', category) %}
+                                <a class="btn btn-danger" href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'action.delete'|trans }}">
+                                    {{ 'action.delete'|trans }}
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

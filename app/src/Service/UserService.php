@@ -8,6 +8,8 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -21,12 +23,15 @@ class UserService implements UserServiceInterface
      *
      * @param UserRepository              $userRepository User repository
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param EntityManagerInterface      $entityManager  Entity manager
      */
-    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $entityManager)
     {
     }
 
     /**
+     * Change password.
+     *
      * @param User   $user
      * @param string $newPassword
      *
@@ -37,6 +42,31 @@ class UserService implements UserServiceInterface
         $user->setPassword(
             $this->passwordHasher->hashPassword($user, $newPassword)
         );
+
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * Register.
+     *
+     * @param User   $user
+     * @param string $plainPassword
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function register(User $user, string $plainPassword): void
+    {
+        if ($this->userRepository->findOneByEmail($user->getEmail())) {
+            throw new \Exception('User already exists');
+        }
+
+        $user->setPassword(
+            $this->passwordHasher->hashPassword($user, $plainPassword)
+        );
+
+        $user->setRoles(['ROLE_USER']);
 
         $this->userRepository->save($user);
     }

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  * Class RegistrationController.
  */
-final class RegistrationController extends AbstractController
+class RegistrationController extends AbstractController
 {
     /**
      * Register action.

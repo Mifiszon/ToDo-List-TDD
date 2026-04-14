@@ -8,6 +8,8 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -15,24 +17,59 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserService implements UserServiceInterface
 {
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * Constructor.
      *
      * @param UserRepository              $userRepository User repository
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param PaginatorInterface          $paginator      Paginator
      */
-    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $passwordHasher, private readonly PaginatorInterface $paginator)
     {
     }
 
     /**
-     * Change password.
+     * Get paginated list.
      *
-     * @param User   $user
-     * @param string $newPassword
+     * @param int $page Page number
+     *
+     * @return PaginationInterface Paginated list
+     */
+    public function getPaginatedList(int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->userRepository->queryAll(),
+            $page,
+            self::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    /**
+     * @param User $user
      *
      * @return void
+     */
+    public function save(User $user): void
+    {
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return void
+     */
+    public function delete(User $user): void
+    {
+        $this->userRepository->delete($user);
+    }
+
+    /**
+     * Change password.
+     * @param User   $user
+     * @param string $newPassword
      */
     public function changePassword(User $user, string $newPassword): void
     {
@@ -48,8 +85,6 @@ class UserService implements UserServiceInterface
      *
      * @param User   $user
      * @param string $plainPassword
-     *
-     * @return void
      *
      * @throws \Exception
      */

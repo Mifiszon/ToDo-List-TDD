@@ -8,6 +8,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -29,6 +30,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('user')
+            ->orderBy('user.email', 'ASC');
+    }
+
+    /**
      * Used to upgrade (rehash) the user's password automatically over time.
      * @param PasswordAuthenticatedUserInterface $user
      * @param string                             $newHashedPassword
@@ -45,6 +57,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * Save entity.
+     *
      * @param User $user
      *
      * @return void
@@ -52,6 +66,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function save(User $user): void
     {
         $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param User $user
+     *
+     * @return void
+     */
+    public function delete(User $user): void
+    {
+        $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }
 

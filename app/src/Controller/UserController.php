@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * User Controller.
+ */
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -21,13 +25,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[IsGranted('ROLE_ADMIN')]
 class UserController extends AbstractController
 {
-    public function __construct(
-        private readonly UserServiceInterface $userService,
-        private readonly TranslatorInterface $translator
-    ) {}
+    /**
+     * Constructor.
+     *
+     * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface  $translator  Translator
+     */
+    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
+    {
+    }
 
     /**
      * Index action.
+     *
+     * @param int $page
+     *
+     * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: ['GET'])]
     public function index(#[MapQueryParameter] int $page = 1): Response
@@ -39,6 +52,10 @@ class UserController extends AbstractController
 
     /**
      * View action.
+     *
+     * @param User $user
+     *
+     * @return Response HTTP response
      */
     #[Route('/{id}', name: 'user_view', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
     public function view(User $user): Response
@@ -48,6 +65,10 @@ class UserController extends AbstractController
 
     /**
      * Create action.
+     *
+     * @param Request $request
+     *
+     * @return Response HTTP response
      */
     #[Route('/create', name: 'user_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
@@ -57,6 +78,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $form->get('password')->getData();
+
+            if ($newPassword) {
+                $this->userService->changePassword($user, $newPassword);
+            }
+
             $this->userService->save($user);
 
             $this->addFlash('success', $this->translator->trans('message.created_successfully'));
@@ -69,18 +96,28 @@ class UserController extends AbstractController
 
     /**
      * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user, [
             'method' => 'PUT',
-            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $form->get('password')->getData();
+            if ($newPassword) {
+                $this->userService->changePassword($user, $newPassword);
+            }
+
             $this->userService->save($user);
+
             $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
 
             return $this->redirectToRoute('user_index');
@@ -94,12 +131,18 @@ class UserController extends AbstractController
 
     /**
      * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'user_delete', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'DELETE'])]
     public function delete(Request $request, User $user): Response
     {
         if ($user === $this->getUser()) {
             $this->addFlash('warning', $this->translator->trans('message.user_cannot_delete_self'));
+
             return $this->redirectToRoute('user_index');
         }
 

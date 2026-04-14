@@ -18,6 +18,10 @@
                 <source>message.email_already_exists</source>
                 <target>Ten email jest już zajęty.</target>
             </trans-unit>
+            <trans-unit id="message.leave_empty_to_keep_current">
+                <source>message.leave_empty_to_keep_current</source>
+                <target>Zostaw puste, aby zachować obecne hasło</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

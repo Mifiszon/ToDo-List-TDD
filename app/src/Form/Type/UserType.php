@@ -7,10 +7,12 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class UserType.
@@ -25,20 +27,23 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isNew = null === $options['data']->getId();
+
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
-                'disabled' => null !== $options['data']->getId(),
+                'disabled' => !$isNew,
                 'attr' => ['maxlength' => 180],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'label.roles',
-                'choices' => [
-                    'label.role_user' => 'ROLE_USER',
-                    'label.role_admin' => 'ROLE_ADMIN',
-                ],
-                'multiple' => true,
-                'expanded' => true,
+            ->add('password', PasswordType::class, [
+                'label' => 'label.password',
+                'mapped' => false,
+                'required' => $isNew,
+                'constraints' => $isNew ? [
+                    new NotBlank(message: 'message.password_required'),
+                    new Length(min: 6, minMessage: 'message.password_too_short'),
+                ] : [],
+                'help' => $isNew ? '' : 'message.leave_empty_to_keep_current',
             ]);
     }
 

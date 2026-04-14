@@ -18,6 +18,10 @@
                 <source>message.passwords_do_not_match</source>
                 <target>Given passwords do not match.</target>
             </trans-unit>
+            <trans-unit id="message.leave_empty_to_keep_current">
+                <source>message.leave_empty_to_keep_current</source>
+                <target>Leave empty to keep current</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

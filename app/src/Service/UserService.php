@@ -53,6 +53,9 @@ class UserService implements UserServiceInterface
      */
     public function save(User $user): void
     {
+        if (empty($user->getRoles())) {
+            $user->setRoles(['ROLE_USER']);
+        }
         $this->userRepository->save($user);
     }
 

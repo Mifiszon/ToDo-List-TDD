@@ -246,6 +246,34 @@
           <source>message.no_account</source>
           <target>No account?</target>
       </trans-unit>
+      <trans-unit id="message.user_cannot_delete_self">
+          <source>message.user_cannot_delete_self</source>
+          <target>You cannot delete your own account!</target>
+      </trans-unit>
+      <trans-unit id="title.user_create">
+          <source>title.user_create</source>
+          <target>Create New User</target>
+      </trans-unit>
+      <trans-unit id="title.user_delete">
+          <source>title.user_delete</source>
+          <target>Delete User</target>
+      </trans-unit>
+      <trans-unit id="title.user_edit">
+          <source>title.user_edit</source>
+          <target>Edit User</target>
+      </trans-unit>
+      <trans-unit id="title.user_list">
+          <source>title.user_list</source>
+          <target>User List</target>
+      </trans-unit>
+      <trans-unit id="label.roles">
+          <source>label.roles</source>
+          <target>User Roles</target>
+      </trans-unit>
+      <trans-unit id="title.user_view">
+          <source>title.user_view</source>
+          <target>User Details</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

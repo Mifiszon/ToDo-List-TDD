@@ -26,7 +26,13 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'task.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'task.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}</th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ url('user_index') }}" title="{{ 'title.user_list'|trans }}" class="ms-1">
+                            <i class="bi bi-people-fill"></i>
+                        </a>
+                    {% endif %}</th>
                 <th>
                     {{ 'label.tags'|trans }}
                     <a href="{{ url('tag_index') }}" title="{{ 'title.tag_list'|trans }}">

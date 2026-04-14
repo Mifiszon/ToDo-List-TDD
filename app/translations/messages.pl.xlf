@@ -246,6 +246,34 @@
           <source>message.no_account</source>
           <target>Nie masz jeszcze konta?</target>
       </trans-unit>
+      <trans-unit id="message.user_cannot_delete_self">
+          <source>message.user_cannot_delete_self</source>
+          <target>Nie możesz usunąć swojego konta.</target>
+      </trans-unit>
+      <trans-unit id="title.user_create">
+          <source>title.user_create</source>
+          <target>Tworzenie nowego użytkownika</target>
+      </trans-unit>
+      <trans-unit id="title.user_delete">
+          <source>title.user_delete</source>
+          <target>Usuń użytkownika</target>
+      </trans-unit>
+      <trans-unit id="title.user_edit">
+          <source>title.user_edit</source>
+          <target>Edycja użytkownika</target>
+      </trans-unit>
+      <trans-unit id="title.user_list">
+          <source>title.user_list</source>
+          <target>Lista użytkowników</target>
+      </trans-unit>
+      <trans-unit id="label.roles">
+          <source>label.roles</source>
+          <target>Role</target>
+      </trans-unit>
+      <trans-unit id="title.user_view">
+          <source>title.user_view</source>
+          <target>Szczegóły użytkownika</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

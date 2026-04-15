@@ -17,6 +17,9 @@
 <body>
     <header class="position-fixed top-0 end-0 p-3">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.avatar.filename is defined and app.user.avatar.filename|length %}
+                <img class="nav-profile-img" src="{{ asset(avatars_directory~app.user.avatar.filename) }}" alt="avatar">
+            {% endif %}
             <div>{{ app.user.email }}</div>
                 <a href="{{ url('user_change_password') }}" class="text-info text-decoration-none small">
                     <i class="bi bi-key"></i> {{ 'action.change_password'|trans|default('Zmień hasło') }}

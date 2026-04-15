@@ -21,6 +21,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
+     * Constructor.
+     *
      * @param UserServiceInterface $userService UserService
      */
     public function __construct(private readonly UserServiceInterface $userService)

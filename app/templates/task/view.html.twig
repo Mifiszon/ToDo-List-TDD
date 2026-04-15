@@ -45,7 +45,7 @@
             <dt>{{ 'label.comment'|trans }}</dt>
             <dd>
                 {% if task.comment is not empty %}
-                    {{ task.comment|nl2br }}
+                    {{ task.comment|markdown_to_html }}
                 {% else %}
                     <span class="text-muted">-</span>
                 {% endif %}

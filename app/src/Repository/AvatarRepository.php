@@ -38,5 +38,6 @@ class AvatarRepository extends ServiceEntityRepository
     public function save(Avatar $avatar): void
     {
         $this->getEntityManager()->persist($avatar);
+        $this->getEntityManager()->flush();
     }
 }

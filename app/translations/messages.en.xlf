@@ -326,6 +326,10 @@
           <source>label.avatar</source>
           <target>Avatar</target>
       </trans-unit>
+      <trans-unit id="title.avatar_delete">
+          <source>title.avatar_delete</source>
+          <target>Avatar delete</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

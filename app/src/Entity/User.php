@@ -158,18 +158,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return Avatar|null
+     */
     public function getAvatar(): ?Avatar
     {
         return $this->avatar;
     }
 
-    public function setAvatar(Avatar $avatar): static
+    /**
+     * @param Avatar $avatar
+     *
+     * @return $this
+     */
+    public function setAvatar(?Avatar $avatar): static
     {
-        // set the owning side of the relation if necessary
-        if ($avatar->getUser() !== $this) {
-            $avatar->setUser($this);
-        }
-
         $this->avatar = $avatar;
 
         return $this;

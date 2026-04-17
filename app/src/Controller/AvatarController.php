@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\Type\AvatarType;
 use App\Service\AvatarServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +78,7 @@ class AvatarController extends AbstractController
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('user_profile');
         }
 
         return $this->render(
@@ -94,16 +95,16 @@ class AvatarController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/{id}/edit',
-        name: 'avatar_edit',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: ['GET', 'PUT']
-    )]
+    #[Route('/{id}/edit', name: 'avatar_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     public function edit(Request $request, Avatar $avatar): Response
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        if ($avatar->getUser() !== $user && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('You cannot edit this avatar.');
+        }
+
         if (!$user->getAvatar()) {
             return $this->redirectToRoute('avatar_create');
         }
@@ -132,11 +133,60 @@ class AvatarController extends AbstractController
                 $this->translator->trans('message.edited_successfully')
             );
 
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('user_profile');
         }
 
         return $this->render(
             'avatar/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'avatar' => $avatar,
+            ]
+        );
+    }
+
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Avatar  $avatar  Avatar entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/{id}/delete',
+        name: 'avatar_delete',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: ['GET', 'DELETE']
+    )]
+    public function delete(Request $request, Avatar $avatar): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($avatar->getUser() !== $user && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createForm(FormType::class, $avatar, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('avatar_delete', ['id' => $avatar->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->avatarService->delete($avatar);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render(
+            'avatar/delete.html.twig',
             [
                 'form' => $form->createView(),
                 'avatar' => $avatar,

@@ -40,4 +40,17 @@ class AvatarRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($avatar);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Delete entity.
+     *
+     * @param Avatar $avatar
+     *
+     * @return void
+     */
+    public function delete(Avatar $avatar): void
+    {
+        $this->getEntityManager()->remove($avatar);
+        $this->getEntityManager()->flush();
+    }
 }

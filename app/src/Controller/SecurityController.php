@@ -93,6 +93,9 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * @return Response
+     */
     #[Route('/profile', name: 'user_profile', methods: ['GET'])]
     public function profile(): Response
     {

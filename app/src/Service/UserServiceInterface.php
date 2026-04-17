@@ -51,7 +51,15 @@ interface UserServiceInterface
     /**
      * Save user.
      *
-     * * @param User $user User entity
+     * @param User $user User entity
      */
     public function save(User $user): void;
+
+    /**
+     * Set user roles.
+     *
+     * @param User  $user  User entity
+     * @param array $roles Roles array
+     */
+    public function setUserRoles(User $user, array $roles): void;
 }

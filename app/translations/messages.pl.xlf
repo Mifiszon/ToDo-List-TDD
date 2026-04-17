@@ -278,6 +278,34 @@
           <source>message.leave_empty_to_keep_current</source>
           <target>Zostaw puste, aby zachować obecne hasło</target>
       </trans-unit>
+      <trans-unit id="message.admin_granted">
+          <source>message.admin_granted</source>
+          <target>Uprawnienia administratora zostały nadane pomyślnie.</target>
+      </trans-unit>
+      <trans-unit id="message.cannot_revoke_self">
+          <source>message.cannot_revoke_self</source>
+          <target>Nie możesz odebrać uprawnień administratora samemu sobie!</target>
+      </trans-unit>
+      <trans-unit id="message.admin_revoked">
+          <source>message.admin_revoked</source>
+          <target>Uprawnienia administratora zostały odebrane.</target>
+      </trans-unit>
+      <trans-unit id="title.avatar_create">
+          <source>title.avatar_create</source>
+          <target>Dodaj awatar</target>
+      </trans-unit>
+      <trans-unit id="title.avatar_edit">
+          <source>title.avatar_edit</source>
+          <target>Zmień awatar</target>
+      </trans-unit>
+      <trans-unit id="action.revoke_admin">
+          <source>action.revoke_admin</source>
+          <target>Odbierz admina</target>
+      </trans-unit>
+      <trans-unit id="action.grant_admin">
+          <source>action.grant_admin</source>
+          <target>Nadaj admina</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

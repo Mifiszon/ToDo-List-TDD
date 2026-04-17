@@ -278,6 +278,34 @@
           <source>message.leave_empty_to_keep_current</source>
           <target>Leave empty to keep current</target>
       </trans-unit>
+      <trans-unit id="message.admin_granted">
+          <source>message.admin_granted</source>
+          <target>Administrator privileges have been granted successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.cannot_revoke_self">
+          <source>message.cannot_revoke_self</source>
+          <target>You cannot revoke administrator privileges from yourself!</target>
+      </trans-unit>
+      <trans-unit id="message.admin_revoked">
+          <source>message.admin_revoked</source>
+          <target>Administrator privileges have been revoked.</target>
+      </trans-unit>
+      <trans-unit id="title.avatar_create">
+          <source>title.avatar_create</source>
+          <target>Add avatar</target>
+      </trans-unit>
+      <trans-unit id="title.avatar_edit">
+          <source>title.avatar_edit</source>
+          <target>Change avatar</target>
+      </trans-unit>
+      <trans-unit id="action.revoke_admin">
+          <source>action.revoke_admin</source>
+          <target>Revoke admin</target>
+      </trans-unit>
+      <trans-unit id="action.grant_admin">
+          <source>action.grant_admin</source>
+          <target>Grant admin</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -38,8 +38,6 @@ class UserController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page
-     *
      * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: ['GET'])]
@@ -53,8 +51,6 @@ class UserController extends AbstractController
     /**
      * View action.
      *
-     * @param User $user
-     *
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'user_view', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
@@ -65,8 +61,6 @@ class UserController extends AbstractController
 
     /**
      * Create action.
-     *
-     * @param Request $request
      *
      * @return Response HTTP response
      */
@@ -163,5 +157,49 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
         ]);
+    }
+
+    /**
+     * Grant admin role.
+     *
+     * @param User $user User entity
+     *
+     * @return Response HTTP eesponse
+     */
+    #[Route('/{id}/grant-admin', name: 'user_grant_admin', methods: ['POST'])]
+    public function grantAdmin(User $user): Response
+    {
+        $roles = $user->getRoles();
+        if (!in_array('ROLE_ADMIN', $roles)) {
+            $roles[] = 'ROLE_ADMIN';
+            $this->userService->setUserRoles($user, array_unique($roles));
+            $this->addFlash('success', $this->translator->trans('message.admin_granted'));
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * Revoke admin role.
+     *
+     * @param User $user User entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/revoke-admin', name: 'user_revoke_admin', methods: ['POST'])]
+    public function revokeAdmin(User $user): Response
+    {
+        if ($user === $this->getUser()) {
+            $this->addFlash('warning', $this->translator->trans('message.cannot_revoke_self'));
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        $roles = array_diff($user->getRoles(), ['ROLE_ADMIN']);
+        $this->userService->setUserRoles($user, $roles);
+
+        $this->addFlash('success', $this->translator->trans('message.admin_revoked'));
+
+        return $this->redirectToRoute('user_index');
     }
 }

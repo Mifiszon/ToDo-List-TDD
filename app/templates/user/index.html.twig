@@ -38,23 +38,33 @@
                             <span class="badge bg-secondary">{{ role }}</span>
                         {% endfor %}
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="btn-group" role="group">
-                            {# Widok szczegółów użytkownika #}
                             <a class="btn btn-primary" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
                                 {{ 'action.view'|trans }}
                             </a>
-
-                            {# Edycja użytkownika #}
                             <a class="btn btn-warning" href="{{ url('user_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
                                 {{ 'action.edit'|trans }}
                             </a>
-
-                            {# Usuwanie użytkownika (z blokadą usuwania samego siebie) #}
                             {% if user != app.user %}
                                 <a class="btn btn-danger" href="{{ url('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
                                     {{ 'action.delete'|trans }}
                                 </a>
+                            {% endif %}
+                            {% if user != app.user %}
+                                {% if 'ROLE_ADMIN' in user.roles %}
+                                    <form action="{{ url('user_revoke_admin', {id: user.id}) }}" method="POST" class="d-inline-block">
+                                        <button type="submit" class="btn btn-outline-danger" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" title="{{ 'action.revoke_admin'|trans }}">
+                                            <i class="bi bi-shield-slash"></i> {{ 'action.revoke_admin'|trans }}
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ url('user_grant_admin', {id: user.id}) }}" method="POST" class="d-inline-block">
+                                        <button type="submit" class="btn btn-outline-success" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" title="{{ 'action.grant_admin'|trans }}">
+                                            <i class="bi bi-shield-check"></i> {{ 'action.grant_admin'|trans }}
+                                        </button>
+                                    </form>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </td>
@@ -65,6 +75,12 @@
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ url('task_index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_tasks'|trans|default('Back to tasks') }}
+            </a>
         </div>
 
     {% else %}

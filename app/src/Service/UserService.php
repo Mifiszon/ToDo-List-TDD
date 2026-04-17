@@ -105,4 +105,16 @@ class UserService implements UserServiceInterface
 
         $this->userRepository->save($user);
     }
+
+    /**
+     * Set user roles.
+     *
+     * @param User  $user  User entity
+     * @param array $roles Roles array
+     */
+    public function setUserRoles(User $user, array $roles): void
+    {
+        $user->setRoles($roles);
+        $this->userRepository->save($user);
+    }
 }

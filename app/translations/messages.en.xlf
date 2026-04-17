@@ -306,6 +306,26 @@
           <source>action.grant_admin</source>
           <target>Grant admin</target>
       </trans-unit>
+      <trans-unit id="label.my_profile">
+          <source>label.my_profile</source>
+          <target>My profile</target>
+      </trans-unit>
+      <trans-unit id="title.profile">
+          <source>title.profile</source>
+          <target>User profile</target>
+      </trans-unit>
+      <trans-unit id="action.avatar_edit">
+          <source>action.avatar_edit</source>
+          <target>Edit avatar</target>
+      </trans-unit>
+      <trans-unit id="action.avatar_create">
+          <source>action.avatar_create</source>
+          <target>Create avatar</target>
+      </trans-unit>
+      <trans-unit id="label.avatar">
+          <source>label.avatar</source>
+          <target>Avatar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

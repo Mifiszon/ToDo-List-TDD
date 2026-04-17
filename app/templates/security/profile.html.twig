@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.profile'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="border-bottom pb-3 mb-4 d-flex align-items-center justify-content-between">
+                    <h1 class="h3 mb-0 text-secondary fw-light">{{ 'title.profile'|trans }}</h1>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            {% if app.user.avatar and app.user.avatar.filename %}
+                                <img src="{{ asset('uploads/avatars/' ~ app.user.avatar.filename) }}"
+                                     alt="Avatar" class="rounded-circle mb-3 shadow-sm"
+                                     style="width: 160px; height: 160px; object-fit: cover;">
+                                <a href="{{ url('avatar_edit', {id: app.user.avatar.id}) }}" class="btn btn-link btn-sm text-decoration-none text-muted">
+                                    <i class="bi bi-pencil-square"></i> {{ 'action.avatar_edit'|trans }}
+                                </a>
+                            {% else %}
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3 mx-auto shadow-sm"
+                                     style="width: 160px; height: 160px;">
+                                    <i class="bi bi-person text-secondary-emphasis opacity-25" style="font-size: 5rem;"></i>
+                                </div>
+                                <a href="{{ url('avatar_create') }}" class="btn btn-link btn-sm text-decoration-none text-muted">
+                                    <i class="bi bi-plus-circle"></i> {{ 'action.avatar_create'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <label class="small text-uppercase text-muted fw-bold">{{ 'label.email'|trans }}</label>
+                            <p class="fs-5">{{ app.user.email }}</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="small text-uppercase text-muted fw-bold">{{ 'label.roles'|trans }}</label>
+                            <div class="mt-1">
+                                {% for role in app.user.roles %}
+                                    <span class="badge bg-white text-secondary border fw-normal">{{ role }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <hr class="opacity-10">
+
+                        <div class="mt-4">
+                            <a href="{{ url('user_change_password') }}" class="btn btn-outline-secondary border-secondary-subtle px-4">
+                                <i class="bi bi-shield-lock"></i> {{ 'title.change_password'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

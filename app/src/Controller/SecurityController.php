@@ -92,4 +92,10 @@ class SecurityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/profile', name: 'user_profile', methods: ['GET'])]
+    public function profile(): Response
+    {
+        return $this->render('security/profile.html.twig');
+    }
 }

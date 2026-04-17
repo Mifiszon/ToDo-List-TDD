@@ -306,6 +306,26 @@
           <source>action.grant_admin</source>
           <target>Nadaj admina</target>
       </trans-unit>
+      <trans-unit id="label.my_profile">
+          <source>label.my_profile</source>
+          <target>Mój profil</target>
+      </trans-unit>
+      <trans-unit id="title.profile">
+          <source>title.profile</source>
+          <target>Profil użytkownika</target>
+      </trans-unit>
+      <trans-unit id="action.avatar_edit">
+          <source>action.avatar_edit</source>
+          <target>Zmień awatar</target>
+      </trans-unit>
+      <trans-unit id="action.avatar_create">
+          <source>action.avatar_create</source>
+          <target>Dodaj awatar</target>
+      </trans-unit>
+      <trans-unit id="label.avatar">
+          <source>label.avatar</source>
+          <target>Awatar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

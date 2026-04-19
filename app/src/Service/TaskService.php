@@ -48,12 +48,12 @@ class TaskService implements TaskServiceInterface
      * Get paginated list.
      *
      * @param int                     $page    Page number
-     * @param User                    $author  Tasks author
+     * @param User|null               $author  Tasks author
      * @param TaskListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
      */
-    public function getPaginatedList(int $page, User $author, TaskListInputFiltersDto $filters): PaginationInterface
+    public function getPaginatedList(int $page, ?User $author, TaskListInputFiltersDto $filters): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
 
@@ -62,7 +62,7 @@ class TaskService implements TaskServiceInterface
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
             [
-                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title', 'task.status'],
+                'sortFieldAllowList' => ['task.id', 'task.createdAt', 'task.updatedAt', 'task.title', 'category.title', 'task.status', 'author.email'],
                 'defaultSortFieldName' => 'task.updatedAt',
                 'defaultSortDirection' => 'desc',
             ]

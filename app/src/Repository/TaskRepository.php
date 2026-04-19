@@ -37,28 +37,31 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @param User               $author  User entity
+     * @param User|null          $author  User entity (null for admins to see all)
      * @param TaskListFiltersDto $filters Filters
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(User $author, TaskListFiltersDto $filters): QueryBuilder
+    public function queryAll(?User $author, TaskListFiltersDto $filters): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('task')
             ->select(
                 'partial task.{id, createdAt, updatedAt, title, status}',
                 'partial category.{id, title}',
-                'partial tags.{id, title}'
+                'partial tags.{id, title}',
+                'partial author.{id, email}'
             )
             ->join('task.category', 'category')
             ->leftJoin('task.tags', 'tags')
-            ->andWhere('task.author = :author')
-            ->setParameter('author', $author);
+            ->join('task.author', 'author');
+
+        if (null !== $author) {
+            $queryBuilder->andWhere('task.author = :author')
+                ->setParameter('author', $author);
+        }
 
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
-
-// ...
 
     /**
      * Apply filters to paginated list.

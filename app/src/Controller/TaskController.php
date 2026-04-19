@@ -55,9 +55,12 @@ class TaskController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        $author = $this->isGranted('ROLE_ADMIN') ? null : $user;
+
         $pagination = $this->taskService->getPaginatedList(
             $page,
-            $user,
+            $author,
             $filters
         );
 

@@ -334,13 +334,17 @@
           <source>label.status_new</source>
           <target>New</target>
       </trans-unit>
-      <trans-unit id="label.active">
-          <source>label.active</source>
+      <trans-unit id="label.status_active">
+          <source>label.status_active</source>
           <target>Active</target>
       </trans-unit>
       <trans-unit id="label.status_done">
           <source>label.status_done</source>
           <target>Done</target>
+      </trans-unit>
+      <trans-unit id="label.status">
+          <source>label.status</source>
+          <target>Status</target>
       </trans-unit>
     </body>
   </file>

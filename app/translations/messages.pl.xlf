@@ -330,6 +330,18 @@
           <source>title.avatar_delete</source>
           <target>Usuń awatar</target>
       </trans-unit>
+      <trans-unit id="label.status_new">
+          <source>label.status_new</source>
+          <target>Nowe</target>
+      </trans-unit>
+      <trans-unit id="label.active">
+          <source>label.active</source>
+          <target>W toku</target>
+      </trans-unit>
+      <trans-unit id="label.status_done">
+          <source>label.status_done</source>
+          <target>Zakończone</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -59,4 +59,16 @@ class CategoryRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($category);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Find entity by ID.
+     *
+     * @param int $id
+     *
+     * @return Category|null
+     */
+    public function findOneById(int $id): ?Category
+    {
+        return $this->findOneById($id);
+    }
 }

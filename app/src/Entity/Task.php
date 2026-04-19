@@ -6,6 +6,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\TaskStatus;
 use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -89,6 +90,12 @@ class Task
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
     private ?User $author;
+
+    /**
+     * Task status.
+     */
+    #[ORM\Column(type: 'integer', enumType: TaskStatus::class)]
+    private TaskStatus $status = TaskStatus::ACTIVE;
 
     /**
      * Constructor.
@@ -240,15 +247,43 @@ class Task
         $this->tags->removeElement($tag);
     }
 
+    /**
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * @param User|null $author
+     *
+     * @return $this
+     */
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * Getter for status.
+     *
+     * @return TaskStatus Status
+     */
+    public function getStatus(): TaskStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * Setter for status.
+     *
+     * @param TaskStatus $status Status
+     */
+    public function setStatus(TaskStatus $status): void
+    {
+        $this->status = $status;
     }
 }

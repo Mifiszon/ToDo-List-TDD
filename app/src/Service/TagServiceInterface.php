@@ -7,6 +7,7 @@
 namespace App\Service;
 
 use App\Entity\Tag;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -54,4 +55,15 @@ interface TagServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Tag $tag): bool;
+
+    /**
+     * Find by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Tag;
 }

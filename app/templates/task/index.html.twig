@@ -34,15 +34,23 @@
                         </a>
                     {% endif %}</th>
                 <th>
-                    {{ 'label.tags'|trans }}
-                    <a href="{{ url('tag_index') }}" title="{{ 'title.tag_list'|trans }}">
-                        <i class="bi bi-tags"></i>
-                    </a>
+                    {% if task.tags is defined and task.tags|length %}
+                        {% for tag in task.tags %}
+                            <a class="btn btn-outline-primary"
+                               href="{{ url('task_index', {'tagId' : tag.id, 'statusId' : task.status.value}) }}"
+                               title="{{ tag.title }}">
+                                {{ tag.title }}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}
-                    <a href="{{ url('category_index') }}" title="{{ 'title.category_list'|trans }}">
-                        <i class="bi bi-link-45deg"></i>
+                    <a class="btn btn-outline-primary"
+                       href="{{ url('task_index', {'categoryId' : task.category.id, 'statusId' : task.status.value}) }}"
+                       title="{{ task.category.title }}">
+                        {{ task.category.title }}
                     </a>
                 </th>
                 <th>{{ 'label.actions'|trans }}</th>

@@ -7,6 +7,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Enum\TaskStatus;
 use App\Entity\Tag;
 use App\Entity\Task;
 use App\Entity\User;
@@ -48,15 +49,14 @@ class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInter
                 )
             );
             $task->setComment($this->faker->realText(1024));
+
+            $task->setStatus($this->faker->randomElement(TaskStatus::cases()));
+
             $category = $this->getRandomReference('category', Category::class);
             $task->setCategory($category);
 
             /** @var Tag[] $tags */
-            $tags = $this->getRandomReferenceList(
-                'tag',
-                Tag::class,
-                $this->faker->numberBetween(0, 5)
-            );
+            $tags = $this->getRandomReferenceList('tag', Tag::class, $this->faker->numberBetween(0, 5));
             foreach ($tags as $tag) {
                 $task->addTag($tag);
             }

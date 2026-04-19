@@ -62,4 +62,16 @@ class TagRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($tag);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Find entity by ID.
+     *
+     * @param int $id
+     *
+     * @return Tag|null
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->findOneById($id);
+    }
 }

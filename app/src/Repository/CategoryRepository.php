@@ -61,14 +61,14 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find entity by ID.
+     * Find one by ID.
      *
-     * @param int $id
+     * @param int $id ID
      *
-     * @return Category|null
+     * @return Category|null Category entity
      */
     public function findOneById(int $id): ?Category
     {
-        return $this->findOneById($id);
+        return $this->find($id);
     }
 }

@@ -6,7 +6,6 @@
 
 namespace App\Service;
 
-use App\Dto\TaskListFiltersDto;
 use App\Dto\TaskListInputFiltersDto;
 use App\Entity\Task;
 use App\Entity\User;

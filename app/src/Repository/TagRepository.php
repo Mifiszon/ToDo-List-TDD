@@ -64,14 +64,14 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find entity by ID.
+     * Find one by ID.
      *
-     * @param int $id
+     * @param int $id ID
      *
-     * @return Tag|null
+     * @return Tag|null Tag entity
      */
     public function findOneById(int $id): ?Tag
     {
-        return $this->findOneById($id);
+        return $this->find($id);
     }
 }

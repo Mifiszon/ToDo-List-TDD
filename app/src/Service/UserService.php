@@ -47,15 +47,28 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * @param User $user
+     * Save user.
      *
-     * @return void
+     * @param User $user User entity
+     *
+     * @throws \LogicException
      */
     public function save(User $user): void
     {
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+            $userInDb = $this->userRepository->find($user->getId());
+
+            if ($userInDb && in_array('ROLE_ADMIN', $userInDb->getRoles())) {
+                if ($this->userRepository->countAdmins() <= 1) {
+                    throw new \LogicException('message.last_admin_error');
+                }
+            }
+        }
+
         if (empty($user->getRoles())) {
             $user->setRoles(['ROLE_USER']);
         }
+
         $this->userRepository->save($user);
     }
 

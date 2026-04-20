@@ -147,10 +147,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->delete($user);
-            $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
+            try {
+                $this->userService->delete($user);
+                $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
 
-            return $this->redirectToRoute('user_index');
+                return $this->redirectToRoute('user_index');
+            } catch (\LogicException $e) {
+                $this->addFlash('danger', $this->translator->trans($e->getMessage()));
+            }
         }
 
         return $this->render('user/delete.html.twig', [
@@ -195,10 +199,13 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        $roles = array_diff($user->getRoles(), ['ROLE_ADMIN']);
-        $this->userService->setUserRoles($user, $roles);
-
-        $this->addFlash('success', $this->translator->trans('message.admin_revoked'));
+        try {
+            $roles = array_diff($user->getRoles(), ['ROLE_ADMIN']);
+            $this->userService->setUserRoles($user, $roles);
+            $this->addFlash('success', $this->translator->trans('message.admin_revoked'));
+        } catch (\LogicException $e) {
+            $this->addFlash('danger', $this->translator->trans($e->getMessage()));
+        }
 
         return $this->redirectToRoute('user_index');
     }

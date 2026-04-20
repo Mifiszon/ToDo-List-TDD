@@ -1,20 +1,20 @@
 <?php
 /**
- * TaskListInputFiltersDto resolver.
+ * NoteListInputFiltersDto resolver.
  */
 
 namespace App\Resolver;
 
-use App\Dto\TaskListInputFiltersDto;
-use App\Entity\Enum\TaskStatus;
+use App\Dto\NoteListInputFiltersDto;
+use App\Entity\Enum\NoteStatus;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 /**
- * TaskListInputFiltersDtoResolver class.
+ * NoteListInputFiltersDtoResolver class.
  */
-class TaskListInputFiltersDtoResolver implements ValueResolverInterface
+class NoteListInputFiltersDtoResolver implements ValueResolverInterface
 {
     /**
      * Returns the possible value(s).
@@ -28,14 +28,14 @@ class TaskListInputFiltersDtoResolver implements ValueResolverInterface
     {
         $argumentType = $argument->getType();
 
-        if (!$argumentType || !is_a($argumentType, TaskListInputFiltersDto::class, true)) {
+        if (!$argumentType || !is_a($argumentType, NoteListInputFiltersDto::class, true)) {
             return [];
         }
 
         $categoryId = $request->query->get('categoryId');
         $tagId = $request->query->get('tagId');
-        $statusId = $request->query->get('statusId', TaskStatus::ACTIVE->value);
+        $statusId = $request->query->get('statusId', NoteStatus::ACTIVE->value);
 
-        return [new TaskListInputFiltersDto($categoryId, $tagId, $statusId)];
+        return [new NoteListInputFiltersDto($categoryId, $tagId, $statusId)];
     }
 }

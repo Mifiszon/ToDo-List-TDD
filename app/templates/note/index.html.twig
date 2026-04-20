@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.task_list'|trans }}
+    {{ 'title.note_list'|trans }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.task_list'|trans }}</h1>
+    <h1>{{ 'title.note_list'|trans }}</h1>
 
     <div class="mb-3">
-        <a href="{{ url('task_create') }}" class="btn btn-success">
+        <a href="{{ url('note_create') }}" class="btn btn-success">
             <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
         </a>
     </div>
@@ -22,12 +22,12 @@
         <table class="table table-striped align-middle">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'task.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'note.id') }}</th>
                 {# Nowa mała kolumna na status #}
-                <th style="width: 1%">{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'task.status') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'task.createdAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'task.title') }}</th>
+                <th style="width: 1%">{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'note.status') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'note.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'note.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'note.title') }}</th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}
                     {% if is_granted('ROLE_ADMIN') %}
@@ -52,23 +52,22 @@
             </tr>
             </thead>
             <tbody>
-            {% for task in pagination.items %}
+            {% for note in pagination.items %}
                 <tr>
-                    <td>{{ task.id }}</td>
-                    {# Zawartość kolumny status #}
+                    <td>{{ note.id }}</td>
                     <td style="white-space: nowrap;">
-                        <span class="badge {{ task.status.value == 1 ? 'bg-primary' : 'bg-success' }}">
-                            {{ task.status.label|trans }}
+                        <span class="badge {{ note.status.value == 1 ? 'bg-primary' : 'bg-success' }}">
+                            {{ note.status.label|trans }}
                         </span>
                     </td>
-                    <td>{{ task.createdAt|format_date('long') }}</td>
-                    <td>{{ task.updatedAt|format_date('long') }}</td>
-                    <td><span class="fw-bold">{{ task.title }}</span></td>
-                    <td>{{ task.author.email|default('-') }}</td>
+                    <td>{{ note.createdAt|format_date('long') }}</td>
+                    <td>{{ note.updatedAt|format_date('long') }}</td>
+                    <td><span class="fw-bold">{{ note.title }}</span></td>
+                    <td>{{ note.author.email|default('-') }}</td>
                     <td>
-                        {% if task.tags is not empty %}
-                            {% for tag in task.tags %}
-                            <a href="{{ url('task_index', {'tagId' : tag.id, 'statusId' : task.status.value}) }}"
+                        {% if note.tags is not empty %}
+                            {% for tag in note.tags %}
+                            <a href="{{ url('note_index', {'tagId' : tag.id, 'statusId' : note.status.value}) }}"
                                title="{{ tag.title }}" class="text-dark text-decoration-none border-bottom border-secondary">
                                 {{ tag.title }}
                                 </a>{{ not loop.last ? ', ' : '' }}
@@ -78,25 +77,25 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{ url('task_index', {'categoryId' : task.category.id, 'statusId' : task.status.value}) }}"
-                           title="{{ task.category.title }}" class="text-dark text-decoration-none fw-bold">
-                            {{ task.category.title }}
+                        <a href="{{ url('note_index', {'categoryId' : note.category.id, 'statusId' : note.status.value}) }}"
+                           title="{{ note.category.title }}" class="text-dark text-decoration-none fw-bold">
+                            {{ note.category.title }}
                         </a>
                     </td>
                     <td>
                         <div class="btn-group" role="group">
-                            {% if is_granted('TASK_VIEW', task) %}
-                                <a class="btn btn-primary" href="{{ url('task_view', {id: task.id}) }}" title="{{ 'action.view'|trans }}">
+                            {% if is_granted('NOTE_VIEW', note) %}
+                                <a class="btn btn-primary" href="{{ url('note_view', {id: note.id}) }}" title="{{ 'action.view'|trans }}">
                                     {{ 'action.view'|trans }}
                                 </a>
                             {% endif %}
-                            {% if is_granted('TASK_EDIT', task) %}
-                                <a class="btn btn-warning" href="{{ url('task_edit', {id: task.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {% if is_granted('NOTE_EDIT', note) %}
+                                <a class="btn btn-warning" href="{{ url('note_edit', {id: note.id}) }}" title="{{ 'action.edit'|trans }}">
                                     {{ 'action.edit'|trans }}
                                 </a>
                             {% endif %}
-                            {% if is_granted('TASK_DELETE', task) %}
-                                <a class="btn btn-danger" href="{{ url('task_delete', {id: task.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {% if is_granted('NOTE_DELETE', note) %}
+                                <a class="btn btn-danger" href="{{ url('note_delete', {id: note.id}) }}" title="{{ 'action.delete'|trans }}">
                                     {{ 'action.delete'|trans }}
                                 </a>
                             {% endif %}

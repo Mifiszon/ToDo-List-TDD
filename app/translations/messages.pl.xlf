@@ -50,17 +50,17 @@
         <source>title.record_view</source>
         <target>Widok rekordu #%id%</target>
       </trans-unit>
-      <trans-unit id="title.task_list">
-        <source>title.task_list</source>
-        <target>Lista zadań</target>
+      <trans-unit id="title.note_list">
+        <source>title.note_list</source>
+        <target>Lista notatek</target>
       </trans-unit>
-      <trans-unit id="title.task_view">
-        <source>title.task_view</source>
-        <target>Szczegóły zadania #%id%</target>
+      <trans-unit id="title.note_view">
+        <source>title.note_view</source>
+        <target>Szczegóły notatki #%id%</target>
       </trans-unit>
-      <trans-unit id="title.task_details">
-        <source>title.task_details</source>
-        <target>Szczegóły zadania #%id%</target>
+      <trans-unit id="title.note_details">
+        <source>title.note_details</source>
+        <target>Szczegóły notatki #%id%</target>
       </trans-unit>
       <trans-unit id="action.back_to_list">
         <source>action.back_to_list</source>
@@ -82,9 +82,9 @@
         <source>title.category_details</source>
         <target>Szczegóły kategorii</target>
       </trans-unit>
-      <trans-unit id="action.back_to_tasks">
-        <source>action.back_to_tasks</source>
-        <target>Powrót do listy zadań</target>
+      <trans-unit id="action.back_to_notes">
+        <source>action.back_to_notes</source>
+        <target>Powrót do listy notatek</target>
       </trans-unit>
       <trans-unit id="action.save">
         <source>action.save</source>
@@ -130,21 +130,21 @@
         <source>message.form_error</source>
         <target>Błąd formularza.</target>
       </trans-unit>
-      <trans-unit id="message.category_contains_tasks">
-        <source>message.category_contains_tasks</source>
-        <target>Kategoria zawiera zadania!</target>
+      <trans-unit id="message.category_contains_notes">
+        <source>message.category_contains_notes</source>
+        <target>Kategoria zawiera przypisane notatki!</target>
       </trans-unit>
-      <trans-unit id="title.task_create">
-        <source>title.task_create</source>
-        <target>Stwórz zadanie</target>
+      <trans-unit id="title.note_create">
+        <source>title.note_create</source>
+        <target>Stwórz notatkę</target>
       </trans-unit>
-      <trans-unit id="title.task_edit">
-        <source>title.task_edit</source>
-        <target>Edytuj zadanie</target>
+      <trans-unit id="title.note_edit">
+        <source>title.note_edit</source>
+        <target>Edytuj notatkę</target>
       </trans-unit>
-      <trans-unit id="title.task_delete">
-        <source>title.task_delete</source>
-        <target>Usuń zadanie</target>
+      <trans-unit id="title.note_delete">
+        <source>title.note_delete</source>
+        <target>Usuń notatkę</target>
       </trans-unit>
       <trans-unit id="label.none">
         <source>label.none</source>
@@ -170,9 +170,9 @@
         <source>title.tag_delete</source>
         <target>Usuń tag</target>
       </trans-unit>
-      <trans-unit id="message.tag_contains_tasks">
-        <source>message.tag_contains_tasks</source>
-        <target>Tag zawiera zadania!</target>
+      <trans-unit id="message.tag_contains_notes">
+        <source>message.tag_contains_notes</source>
+        <target>Tag jest przypisany do notatek!</target>
       </trans-unit>
       <trans-unit id="action.logout">
         <source>action.logout</source>
@@ -248,7 +248,7 @@
       </trans-unit>
       <trans-unit id="message.user_cannot_delete_self">
           <source>message.user_cannot_delete_self</source>
-          <target>Nie możesz usunąć swojego konta.</target>
+          <target>Nie możesz usunąć swojego własnego konta.</target>
       </trans-unit>
       <trans-unit id="title.user_create">
           <source>title.user_create</source>
@@ -330,21 +330,21 @@
           <source>title.avatar_delete</source>
           <target>Usuń awatar</target>
       </trans-unit>
-      <trans-unit id="label.status_new">
-          <source>label.status_new</source>
-          <target>Nowe</target>
-      </trans-unit>
       <trans-unit id="label.status_active">
           <source>label.status_active</source>
-          <target>W toku</target>
+          <target>Aktywna</target>
       </trans-unit>
       <trans-unit id="label.status_done">
           <source>label.status_done</source>
-          <target>Zakończone</target>
+          <target>Zakończona</target>
       </trans-unit>
       <trans-unit id="label.status">
           <source>label.status</source>
           <target>Status</target>
+      </trans-unit>
+      <trans-unit id="message.last_admin_error">
+          <source>message.last_admin_error</source>
+          <target>Nie można usunąć ostatniego administratora w systemie!</target>
       </trans-unit>
     </body>
   </file>

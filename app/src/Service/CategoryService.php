@@ -12,7 +12,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Repository\TaskRepository;
+use App\Repository\NoteRepository;
 
 /**
  * Class CategoryService.
@@ -31,9 +31,9 @@ class CategoryService implements CategoryServiceInterface
      *
      * @param CategoryRepository $categoryRepository Category repository
      * @param PaginatorInterface $paginator          Paginator
-     * @param TaskRepository     $taskRepository     TaskRepository
+     * @param NoteRepository     $noteRepository     NoteRepository
      */
-    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly PaginatorInterface $paginator, private readonly TaskRepository $taskRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly PaginatorInterface $paginator, private readonly NoteRepository $noteRepository)
     {
     }
 
@@ -90,7 +90,7 @@ class CategoryService implements CategoryServiceInterface
     public function canBeDeleted(Category $category): bool
     {
         try {
-            $result = $this->taskRepository->countByCategory($category);
+            $result = $this->noteRepository->countByCategory($category);
 
             return !($result > 0);
         } catch (NoResultException|NonUniqueResultException) {

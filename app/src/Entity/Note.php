@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Task entity.
+ * Note entity.
  */
 
 namespace App\Entity;
 
-use App\Entity\Enum\TaskStatus;
-use App\Repository\TaskRepository;
+use App\Entity\Enum\NoteStatus;
+use App\Repository\NoteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,11 +16,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Task.
+ * Class Note.
  */
-#[ORM\Entity(repositoryClass: TaskRepository::class)]
-#[ORM\Table(name: 'tasks')]
-class Task
+#[ORM\Entity(repositoryClass: NoteRepository::class)]
+#[ORM\Table(name: 'notes')]
+class Note
 {
     /**
      * Primary key.
@@ -66,7 +66,7 @@ class Task
     /**
      * Category.
      */
-    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY', inversedBy: 'tasks')]
+    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY', inversedBy: 'notes')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Type(Category::class)]
@@ -78,7 +78,7 @@ class Task
      * @var Collection<int, Tag>
      */
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    #[ORM\JoinTable(name: 'tasks_tags')]
+    #[ORM\JoinTable(name: 'notes_tags')]
     #[Assert\Valid]
     private Collection $tags;
 
@@ -92,10 +92,10 @@ class Task
     private ?User $author;
 
     /**
-     * Task status.
+     * Note status.
      */
-    #[ORM\Column(type: 'integer', enumType: TaskStatus::class)]
-    private TaskStatus $status = TaskStatus::ACTIVE;
+    #[ORM\Column(type: 'integer', enumType: NoteStatus::class)]
+    private NoteStatus $status = NoteStatus::ACTIVE;
 
     /**
      * Constructor.
@@ -270,9 +270,9 @@ class Task
     /**
      * Getter for status.
      *
-     * @return TaskStatus Status
+     * @return NoteStatus Status
      */
-    public function getStatus(): TaskStatus
+    public function getStatus(): NoteStatus
     {
         return $this->status;
     }
@@ -280,9 +280,9 @@ class Task
     /**
      * Setter for status.
      *
-     * @param TaskStatus $status Status
+     * @param NoteStatus $status Status
      */
-    public function setStatus(TaskStatus $status): void
+    public function setStatus(NoteStatus $status): void
     {
         $this->status = $status;
     }

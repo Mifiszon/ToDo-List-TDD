@@ -66,17 +66,17 @@ class Category
     private ?string $slug = null;
 
     /**
-     * Tasks.
+     * Notes.
      */
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'category')]
-    private Collection $tasks;
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'category')]
+    private Collection $notes;
 
     /**
      * Construct.
      */
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -150,11 +150,11 @@ class Category
     }
 
     /**
-     * @return Collection<int, Task>
+     * @return Collection<int, Note>
      */
-    public function getTasks(): Collection
+    public function getNotes(): Collection
     {
-        return $this->tasks;
+        return $this->notes;
     }
 
     /**

@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserService $userService): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('note_index');
         }
 
         $user = new User();

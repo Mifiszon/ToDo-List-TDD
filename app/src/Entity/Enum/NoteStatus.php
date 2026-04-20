@@ -3,9 +3,9 @@
 namespace App\Entity\Enum;
 
 /**
- * Enum TaskStatus.
+ * Enum NoteStatus.
  */
-enum TaskStatus: int
+enum NoteStatus: int
 {
     case ACTIVE = 1;
     case DONE = 2;

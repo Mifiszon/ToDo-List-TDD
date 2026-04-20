@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Task repository.
+ * User repository.
  */
 
 namespace App\Repository;

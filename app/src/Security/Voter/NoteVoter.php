@@ -1,42 +1,42 @@
 <?php
 
 /**
- * Task voter.
+ * Note voter.
  */
 
 namespace App\Security\Voter;
 
-use App\Entity\Task;
+use App\Entity\Note;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class TaskVoter.
+ * Class NoteVoter.
  */
-final class TaskVoter extends Voter
+final class NoteVoter extends Voter
 {
     /**
      * Delete permission.
      *
      * @var string
      */
-    public const DELETE = 'TASK_DELETE';
+    public const DELETE = 'NOTE_DELETE';
 
     /**
      * Edit permission.
      *
      * @var string
      */
-    public const EDIT = 'TASK_EDIT';
+    public const EDIT = 'NOTE_EDIT';
 
     /**
      * View permission.
      *
      * @var string
      */
-    public const VIEW = 'TASK_VIEW';
+    public const VIEW = 'NOTE_VIEW';
 
     /**
      * Determines if this voter supports the attribute and subject.
@@ -49,7 +49,7 @@ final class TaskVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::DELETE, self::EDIT, self::VIEW])
-            && $subject instanceof Task;
+            && $subject instanceof Note;
     }
 
     /**
@@ -72,7 +72,7 @@ final class TaskVoter extends Voter
         if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
             return true;
         }
-        if (!$subject instanceof Task) {
+        if (!$subject instanceof Note) {
             return false;
         }
 
@@ -85,41 +85,41 @@ final class TaskVoter extends Voter
     }
 
     /**
-     * Checks if user can delete task.
+     * Checks if user can delete note.
      *
-     * @param Task          $task Task entity
+     * @param Note          $note Note entity
      * @param UserInterface $user User
      *
      * @return bool Result
      */
-    private function canDelete(Task $task, UserInterface $user): bool
+    private function canDelete(Note $note, UserInterface $user): bool
     {
-        return $task->getAuthor() === $user;
+        return $note->getAuthor() === $user;
     }
 
     /**
-     * Checks if user can edit task.
+     * Checks if user can edit note.
      *
-     * @param Task          $task Task entity
+     * @param Note          $note Note entity
      * @param UserInterface $user User
      *
      * @return bool Result
      */
-    private function canEdit(Task $task, UserInterface $user): bool
+    private function canEdit(Note $note, UserInterface $user): bool
     {
-        return $task->getAuthor() === $user;
+        return $note->getAuthor() === $user;
     }
 
     /**
-     * Checks if a user can view a task.
+     * Checks if a user can view a note.
      *
-     * @param Task          $task Task entity
+     * @param Note          $note Note entity
      * @param UserInterface $user User
      *
      * @return bool Result
      */
-    private function canView(Task $task, UserInterface $user): bool
+    private function canView(Note $note, UserInterface $user): bool
     {
-        return $task->getAuthor() === $user;
+        return $note->getAuthor() === $user;
     }
 }

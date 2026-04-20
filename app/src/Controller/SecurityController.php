@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('note_index');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -85,7 +85,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash('success', 'message.password_changed_successfully');
 
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('note_index');
         }
 
         return $this->render('security/change_password.html.twig', [

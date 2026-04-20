@@ -1,12 +1,12 @@
 <?php
 /**
- * Task type.
+ * Note type.
  */
 
 namespace App\Form\Type;
 
 use App\Entity\Category;
-use App\Entity\Task;
+use App\Entity\Note;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,9 +16,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class TaskType.
+ * Class NoteType.
  */
-class TaskType extends AbstractType
+class NoteType extends AbstractType
 {
     /**
      * Constructor.
@@ -95,7 +95,7 @@ class TaskType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Task::class]);
+        $resolver->setDefaults(['data_class' => Note::class]);
     }
 
     /**
@@ -108,6 +108,6 @@ class TaskType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'task';
+        return 'note';
     }
 }

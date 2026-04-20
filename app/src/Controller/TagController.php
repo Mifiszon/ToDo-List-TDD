@@ -177,7 +177,7 @@ class TagController extends AbstractController
         if (!$this->tagService->canBeDeleted($tag)) {
             $this->addFlash(
                 'warning',
-                $this->translator->trans('message.tag_contains_tasks')
+                $this->translator->trans('message.tag_contains_notes')
             );
 
             return $this->redirectToRoute('tag_index');

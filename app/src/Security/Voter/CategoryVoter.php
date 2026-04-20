@@ -13,6 +13,12 @@ final class CategoryVoter extends Voter
     public const VIEW = 'CATEGORY_VIEW';
     public const DELETE = 'CATEGORY_DELETE';
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     *
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
@@ -25,7 +31,7 @@ final class CategoryVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        if ($attribute === self::VIEW) {
+        if (self::VIEW === $attribute) {
             return true;
         }
 

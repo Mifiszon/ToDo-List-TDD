@@ -1,26 +1,26 @@
 <?php
 
 /**
- * Task fixtures.
+ * Note fixtures.
  */
 
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Enum\TaskStatus;
+use App\Entity\Enum\NoteStatus;
+use App\Entity\Note;
 use App\Entity\Tag;
-use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
 
 /**
- * Class TaskFixtures.
+ * Class NoteFixtures.
  *
  * @psalm-suppress MissingConstructor
  */
-class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
+class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
@@ -35,37 +35,37 @@ class TaskFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             return;
         }
 
-        $this->createMany(100, 'task', function (int $i) {
-            $task = new Task();
-            $task->setTitle($this->faker->sentence);
-            $task->setCreatedAt(
+        $this->createMany(100, 'note', function (int $i) {
+            $note = new Note();
+            $note->setTitle($this->faker->sentence);
+            $note->setCreatedAt(
                 \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
-            $task->setUpdatedAt(
+            $note->setUpdatedAt(
                 \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
-            $task->setComment($this->faker->realText(1024));
+            $note->setComment($this->faker->realText(1024));
 
-            $task->setStatus($this->faker->randomElement(TaskStatus::cases()));
+            $note->setStatus($this->faker->randomElement(NoteStatus::cases()));
 
             $category = $this->getRandomReference('category', Category::class);
-            $task->setCategory($category);
+            $note->setCategory($category);
 
             /** @var Tag[] $tags */
             $tags = $this->getRandomReferenceList('tag', Tag::class, $this->faker->numberBetween(0, 5));
             foreach ($tags as $tag) {
-                $task->addTag($tag);
+                $note->addTag($tag);
             }
 
             /** @var User $author */
             $author = $this->getRandomReference('user', User::class);
-            $task->setAuthor($author);
+            $note->setAuthor($author);
 
-            return $task;
+            return $note;
         });
     }
 

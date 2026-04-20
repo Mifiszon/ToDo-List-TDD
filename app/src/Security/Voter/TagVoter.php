@@ -13,6 +13,12 @@ final class TagVoter extends Voter
     public const VIEW = 'TAG_VIEW';
     public const DELETE = 'TAG_DELETE';
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     *
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])

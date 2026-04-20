@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Task repository.
+ * Note repository.
  */
 
 namespace App\Repository;
 
-use App\Dto\TaskListFiltersDto;
+use App\Dto\NoteListFiltersDto;
 use App\Entity\Category;
-use App\Entity\Enum\TaskStatus;
+use App\Entity\Enum\NoteStatus;
 use App\Entity\Tag;
-use App\Entity\Task;
+use App\Entity\Note;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
@@ -18,11 +18,11 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class TaskRepository.
+ * Class NoteRepository.
  *
- * @extends ServiceEntityRepository<Task>
+ * @extends ServiceEntityRepository<Note>
  */
-class TaskRepository extends ServiceEntityRepository
+class NoteRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
@@ -31,32 +31,32 @@ class TaskRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Task::class);
+        parent::__construct($registry, Note::class);
     }
 
     /**
      * Query all records.
      *
      * @param User|null          $author  User entity (null for admins to see all)
-     * @param TaskListFiltersDto $filters Filters
+     * @param NoteListFiltersDto $filters Filters
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(?User $author, TaskListFiltersDto $filters): QueryBuilder
+    public function queryAll(?User $author, NoteListFiltersDto $filters): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('task')
+        $queryBuilder = $this->createQueryBuilder('note')
             ->select(
-                'partial task.{id, createdAt, updatedAt, title, status}',
+                'partial note.{id, createdAt, updatedAt, title, status}',
                 'partial category.{id, title}',
                 'partial tags.{id, title}',
                 'partial author.{id, email}'
             )
-            ->join('task.category', 'category')
-            ->leftJoin('task.tags', 'tags')
-            ->join('task.author', 'author');
+            ->join('note.category', 'category')
+            ->leftJoin('note.tags', 'tags')
+            ->join('note.author', 'author');
 
         if (null !== $author) {
-            $queryBuilder->andWhere('task.author = :author')
+            $queryBuilder->andWhere('note.author = :author')
                 ->setParameter('author', $author);
         }
 
@@ -67,11 +67,11 @@ class TaskRepository extends ServiceEntityRepository
      * Apply filters to paginated list.
      *
      * @param QueryBuilder       $queryBuilder Query builder
-     * @param TaskListFiltersDto $filters      Filters
+     * @param NoteListFiltersDto $filters      Filters
      *
      * @return QueryBuilder Query builder
      */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, TaskListFiltersDto $filters): QueryBuilder
+    private function applyFiltersToList(QueryBuilder $queryBuilder, NoteListFiltersDto $filters): QueryBuilder
     {
         if ($filters->category instanceof Category) {
             $queryBuilder->andWhere('category = :category')
@@ -83,45 +83,45 @@ class TaskRepository extends ServiceEntityRepository
                 ->setParameter('tag', $filters->tag);
         }
 
-        if ($filters->taskStatus instanceof TaskStatus) {
-            $queryBuilder->andWhere('task.status = :status')
-                ->setParameter('status', $filters->taskStatus->value, Types::INTEGER);
+        if ($filters->noteStatus instanceof NoteStatus) {
+            $queryBuilder->andWhere('note.status = :status')
+                ->setParameter('status', $filters->noteStatus->value, Types::INTEGER);
         }
 
         return $queryBuilder;
     }
 
     /**
-     * Count tasks by category.
+     * Count notes by category.
      *
      * @param Category $category Category
      *
-     * @return int Number of tasks in category
+     * @return int Number of notes in category
      */
     public function countByCategory(Category $category): int
     {
-        $qb = $this->createQueryBuilder('task');
+        $qb = $this->createQueryBuilder('note');
 
-        return $qb->select($qb->expr()->countDistinct('task.id'))
-            ->where('task.category = :category')
+        return $qb->select($qb->expr()->countDistinct('note.id'))
+            ->where('note.category = :category')
             ->setParameter(':category', $category)
             ->getQuery()
             ->getSingleScalarResult();
     }
 
     /**
-     * Count tasks by tag.
+     * Count notes by tag.
      *
      * @param Tag $tag Tag
      *
-     * @return int Number of tasks in tag
+     * @return int Number of notes in tag
      */
     public function countByTag(Tag $tag): int
     {
-        $qb = $this->createQueryBuilder('task');
+        $qb = $this->createQueryBuilder('note');
 
-        return (int) $qb->select($qb->expr()->countDistinct('task.id'))
-            ->join('task.tags', 'tag')
+        return (int) $qb->select($qb->expr()->countDistinct('note.id'))
+            ->join('note.tags', 'tag')
             ->where('tag = :tag')
             ->setParameter(':tag', $tag)
             ->getQuery()
@@ -131,22 +131,22 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * Save entity.
      *
-     * @param Task $task Task entity
+     * @param Note $note Note entity
      */
-    public function save(Task $task): void
+    public function save(Note $note): void
     {
-        $this->getEntityManager()->persist($task);
+        $this->getEntityManager()->persist($note);
         $this->getEntityManager()->flush();
     }
 
     /**
      * Delete entity.
      *
-     * @param Task $task Task entity
+     * @param Note $note Note entity
      */
-    public function delete(Task $task): void
+    public function delete(Note $note): void
     {
-        $this->getEntityManager()->remove($task);
+        $this->getEntityManager()->remove($note);
         $this->getEntityManager()->flush();
     }
 }

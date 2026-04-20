@@ -38,6 +38,8 @@ class UserController extends AbstractController
     /**
      * Index action.
      *
+     * @param int $page
+     *
      * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: ['GET'])]
@@ -51,6 +53,8 @@ class UserController extends AbstractController
     /**
      * View action.
      *
+     * @param User $user
+     *
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'user_view', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
@@ -61,6 +65,8 @@ class UserController extends AbstractController
 
     /**
      * Create action.
+     *
+     * @param Request $request
      *
      * @return Response HTTP response
      */

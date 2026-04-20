@@ -1,14 +1,14 @@
 <?php
 /**
- * Task list input filters DTO.
+ * Note list input filters DTO.
  */
 
 namespace App\Dto;
 
 /**
- * Class TaskListInputFiltersDto.
+ * Class NoteListInputFiltersDto.
  */
-class TaskListInputFiltersDto
+class NoteListInputFiltersDto
 {
     /**
      * Constructor.

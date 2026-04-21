@@ -8,6 +8,8 @@ namespace App\Service;
 use App\Entity\Todo;
 use App\Entity\User;
 use App\Repository\TodoRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class TodoService.
@@ -15,38 +17,46 @@ use App\Repository\TodoRepository;
 class TodoService implements TodoServiceInterface
 {
     /**
+     * Items per page.
+     *
+     * @constant int
+     */
+    private const PAGINATOR_ITEMS_PER_PAGE = 10;
+
+    /**
      * Constructor.
      *
-     * @param TodoRepository $todoRepository Todo repository
+     * @param TodoRepository     $todoRepository Todo repository
+     * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly TodoRepository $todoRepository)
+    public function __construct(private readonly TodoRepository $todoRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
     /**
-     * Get todos by author.
+     * Get paginated list.
      *
-     * @param User $user User entity
+     * @param int       $page   Page number
+     * @param User|null $author Author filter (null for admins)
      *
-     * @return array List of todos
+     * @return PaginationInterface Paginated list
      */
-    public function getListByUser(User $user): array
+    public function getPaginatedList(int $page, ?User $author = null): PaginationInterface
     {
-        return $this->todoRepository->findBy(['author' => $user]);
+        return $this->paginator->paginate(
+            $this->todoRepository->queryAll($author),
+            $page,
+            self::PAGINATOR_ITEMS_PER_PAGE,
+            [
+                'sortFieldAllowList' => ['todo.id', 'todo.title', 'todo.isDone'],
+                'defaultSortFieldName' => 'todo.id',
+                'defaultSortDirection' => 'asc',
+            ]
+        );
     }
 
     /**
-     * Find all todos.
-     *
-     * @return array List of all todos
-     */
-    public function findAll(): array
-    {
-        return $this->todoRepository->findAll();
-    }
-
-    /**
-     * Save todo.
+     * Save entity.
      *
      * @param Todo $todo Todo entity
      */
@@ -56,7 +66,7 @@ class TodoService implements TodoServiceInterface
     }
 
     /**
-     * Delete todo.
+     * Delete entity.
      *
      * @param Todo $todo Todo entity
      */

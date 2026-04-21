@@ -1,4 +1,7 @@
 <?php
+/**
+ * Todo type.
+ */
 
 namespace App\Form\Type;
 
@@ -15,41 +18,57 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TodoType extends AbstractType
 {
     /**
-     * Build form.
+     * Builds the form.
      *
-     * @param FormBuilderInterface $builder Builder
-     * @param array                $options Options
+     * This method is called for each type in the hierarchy starting from the
+     * top most type. Type extensions can further modify the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array<string, mixed> $options Form options
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('title', TextType::class, [
+        $builder->add(
+            'title',
+            TextType::class,
+            [
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['maxlength' => 255],
-            ])
-            ->add('isDone', CheckboxType::class, [
+            ]
+        );
+
+        $builder->add(
+            'isDone',
+            CheckboxType::class,
+            [
                 'label' => 'label.is_done',
                 'required' => false,
-            ]);
+            ]
+        );
     }
 
     /**
-     * Configure options.
+     * Configures the options for this type.
      *
-     * @param OptionsResolver $resolver Resolver
+     * @param OptionsResolver $resolver The resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Todo::class,
-        ]);
+        $resolver->setDefaults(['data_class' => Todo::class]);
     }
 
     /**
-     * Get block prefix.
+     * Returns the prefix of the template block name for this type.
      *
-     * @return string Block prefix
+     * The block prefix defaults to the underscored short class name with
+     * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
+     *
+     * @return string The prefix of the template block name
+     *
+     * @psalm-return 'todo'
      */
     public function getBlockPrefix(): string
     {

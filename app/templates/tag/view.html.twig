@@ -3,7 +3,6 @@
 {% block title %}{{ 'title.tag_details'|trans({'%id%': tag.id}) }}{% endblock %}
 
 {% block body %}
-    {# Sprawdzamy czy zmienna tag istnieje i czy nie jest pusta #}
     {% if tag is defined and tag is not empty %}
         <h1>{{ tag.title }}</h1>
         <dl class="dl-horizontal">

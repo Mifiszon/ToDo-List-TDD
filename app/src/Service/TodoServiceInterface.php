@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Todo;
 use App\Entity\User;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Interface TodoServiceInterface.
@@ -14,30 +15,24 @@ use App\Entity\User;
 interface TodoServiceInterface
 {
     /**
-     * Get todos by author.
+     * Get paginated list.
      *
-     * @param User $user User entity
+     * @param int       $page   Page number
+     * @param User|null $author Author filter
      *
-     * @return array List of todos
+     * @return PaginationInterface Paginated list
      */
-    public function getListByUser(User $user): array;
+    public function getPaginatedList(int $page, ?User $author = null): PaginationInterface;
 
     /**
-     * Find all todos (for Admin).
-     *
-     * @return array List of all todos
-     */
-    public function findAll(): array;
-
-    /**
-     * Save todo.
+     * Save entity.
      *
      * @param Todo $todo Todo entity
      */
     public function save(Todo $todo): void;
 
     /**
-     * Delete todo.
+     * Delete entity.
      *
      * @param Todo $todo Todo entity
      */

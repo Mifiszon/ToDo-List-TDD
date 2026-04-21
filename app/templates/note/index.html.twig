@@ -23,31 +23,13 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'note.id') }}</th>
-                {# Nowa mała kolumna na status #}
                 <th style="width: 1%">{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'note.status') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'note.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'note.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'note.title') }}</th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ url('user_index') }}" title="{{ 'title.user_list'|trans }}" class="ms-1 text-decoration-none">
-                            <i class="bi bi-people-fill text-primary"></i>
-                        </a>
-                    {% endif %}
-                </th>
-                <th>
-                    {{ 'label.tags'|trans }}
-                    <a href="{{ url('tag_index') }}" title="{{ 'title.tag_list'|trans }}" class="ms-1 text-decoration-none">
-                        <i class="bi bi-tags-fill text-primary small"></i>
-                    </a>
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}
-                    <a href="{{ url('category_index') }}" title="{{ 'title.category_list'|trans }}" class="ms-1 text-decoration-none">
-                        <i class="bi bi-collection-fill text-primary small"></i>
-                    </a>
-                </th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'author.email') }}</th>
+                <th>{{ 'label.tags'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -56,7 +38,7 @@
                 <tr>
                     <td>{{ note.id }}</td>
                     <td style="white-space: nowrap;">
-                        <span class="badge {{ note.status.value == 1 ? 'bg-primary' : 'bg-success' }}">
+                        <span class="badge {{ note.status.value == 1 ? 'bg-success' : 'bg-danger' }}">
                             {{ note.status.label|trans }}
                         </span>
                     </td>

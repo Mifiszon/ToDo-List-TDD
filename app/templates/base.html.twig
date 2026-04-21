@@ -21,6 +21,23 @@
             <i class="bi bi-check2-square"></i> Test Driven Notes
         </a>
 
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <nav class="d-none d-md-flex gap-3 border-start border-end px-4">
+            <a href="{{ url('note_index') }}" class="text-dark text-decoration-none small fw-semibold">
+                <i class="bi bi-journal-text"></i> {{ 'title.note_list'|trans }}
+            </a>
+            <a href="{{ url('category_index') }}" class="text-dark text-decoration-none small fw-semibold">
+                <i class="bi bi-collection"></i> {{ 'title.category_list'|trans }}
+            </a>
+            <a href="{{ url('tag_index') }}" class="text-dark text-decoration-none small fw-semibold">
+                <i class="bi bi-tags"></i> {{ 'title.tag_list'|trans }}
+            </a>
+            <a href="{{ url('todo_index') }}" class="text-primary text-decoration-none small fw-bold">
+                <i class="bi bi-list-check"></i> {{ 'title.todo_list'|trans }}
+            </a>
+        </nav>
+        {% endif %}
+
         <div class="d-flex align-items-center gap-3">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 

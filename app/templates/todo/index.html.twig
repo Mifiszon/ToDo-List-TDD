@@ -5,62 +5,85 @@
 {% block body %}
     <h1>{{ 'title.todo_list'|trans }}</h1>
 
-    <div class="table-responsive">
+    <div class="mb-3">
+        <a href="{{ url('todo_create') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
+        </a>
+    </div>
+
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ 'label.id'|trans }}</th>
-                <th>{{ 'label.todo_title'|trans }}</th>
-                <th>{{ 'label.status'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'todo.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.todo_title'|trans, 'todo.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'todo.isDone') }}</th>
                 <th>{{ 'label.author'|trans }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for todo in todos %}
+            {% for todo in pagination.items %}
                 <tr>
                     <td>{{ todo.id }}</td>
                     <td class="{{ todo.isDone ? 'text-decoration-line-through text-muted' : '' }}">
                         {{ todo.title }}
                     </td>
                     <td>
-                        <span class="badge {{ todo.isDone ? 'bg-success' : 'bg-warning' }}">
+                        <span class="badge {{ todo.isDone ? 'bg-danger' : 'bg-success' }}">
                             {{ (todo.isDone ? 'label.status_done' : 'label.status_active')|trans }}
                         </span>
                     </td>
                     <td>{{ todo.author.email }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a class="btn btn-outline-primary btn-sm" href="{{ path('todo_view', {'id': todo.id}) }}" title="{{ 'action.view'|trans }}">
-                                {{ 'action.view'|trans }}
-                            </a>
+                            {% if is_granted('TODO_VIEW', todo) %}
+                                <a class="btn btn-primary" href="{{ url('todo_view', {id: todo.id}) }}" title="{{ 'action.view'|trans }}">
+                                    {{ 'action.view'|trans }}
+                                </a>
+                            {% endif %}
                             {% if is_granted('TODO_EDIT', todo) %}
-                                <a class="btn btn-outline-success btn-sm" href="{{ path('todo_edit', {'id': todo.id}) }}" title="{{ 'action.edit'|trans }}">
+                                <a class="btn btn-warning" href="{{ url('todo_edit', {id: todo.id}) }}" title="{{ 'action.edit'|trans }}">
                                     {{ 'action.edit'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if is_granted('TODO_DELETE', todo) %}
+                                <a class="btn btn-danger" href="{{ url('todo_delete', {id: todo.id}) }}" title="{{ 'action.delete'|trans }}">
+                                    {{ 'action.delete'|trans }}
                                 </a>
                             {% endif %}
                         </div>
                     </td>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">
-                        {{ 'message.empty_list'|trans }}
-                    </td>
-                </tr>
             {% endfor %}
             </tbody>
         </table>
-    </div>
 
-    <div class="mt-3">
-        <a href="{{ path('todo_create') }}" class="btn btn-primary">
-            {{ 'action.create'|trans }}
-        </a>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
 
-        {# Przycisk powrotu do notatek #}
-        <a href="{{ path('note_index') }}" class="btn btn-link">
-            {{ 'action.back_to_notes'|trans }}
-        </a>
-    </div>
+        <div class="mt-3">
+            <a href="{{ url('note_index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_notes'|trans }}
+            </a>
+        </div>
+
+    {% else %}
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
+
+        <div class="mt-3">
+            <a href="{{ url('note_index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_notes'|trans }}
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}

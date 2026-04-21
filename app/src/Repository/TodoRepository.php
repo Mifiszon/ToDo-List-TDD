@@ -35,7 +35,7 @@ class TodoRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(?User $author): QueryBuilder
+    public function queryAll(?User $author = null): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('todo')
             ->select(
@@ -49,7 +49,8 @@ class TodoRepository extends ServiceEntityRepository
                 ->setParameter('author', $author);
         }
 
-        $queryBuilder->orderBy('todo.isDone', 'ASC');
+        $queryBuilder->orderBy('todo.isDone', 'ASC')
+            ->addOrderBy('todo.id', 'DESC');
 
         return $queryBuilder;
     }
@@ -74,5 +75,17 @@ class TodoRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($todo);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Find one by ID.
+     *
+     * @param int $id ID
+     *
+     * @return Todo|null Todo entity
+     */
+    public function findOneById(int $id): ?Todo
+    {
+        return $this->find($id);
     }
 }

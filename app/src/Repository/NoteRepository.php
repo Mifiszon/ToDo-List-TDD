@@ -64,34 +64,6 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Apply filters to paginated list.
-     *
-     * @param QueryBuilder       $queryBuilder Query builder
-     * @param NoteListFiltersDto $filters      Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, NoteListFiltersDto $filters): QueryBuilder
-    {
-        if ($filters->category instanceof Category) {
-            $queryBuilder->andWhere('category = :category')
-                ->setParameter('category', $filters->category);
-        }
-
-        if ($filters->tag instanceof Tag) {
-            $queryBuilder->andWhere('tags IN (:tag)')
-                ->setParameter('tag', $filters->tag);
-        }
-
-        if ($filters->noteStatus instanceof NoteStatus) {
-            $queryBuilder->andWhere('note.status = :status')
-                ->setParameter('status', $filters->noteStatus->value, Types::INTEGER);
-        }
-
-        return $queryBuilder;
-    }
-
-    /**
      * Count notes by category.
      *
      * @param Category $category Category
@@ -148,5 +120,33 @@ class NoteRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($note);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder       $queryBuilder Query builder
+     * @param NoteListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, NoteListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
+        }
+
+        if ($filters->noteStatus instanceof NoteStatus) {
+            $queryBuilder->andWhere('note.status = :status')
+                ->setParameter('status', $filters->noteStatus->value, Types::INTEGER);
+        }
+
+        return $queryBuilder;
     }
 }

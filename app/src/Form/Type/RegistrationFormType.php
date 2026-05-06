@@ -46,13 +46,10 @@ class RegistrationFormType extends AbstractType
             ]);
     }
 
-
     /**
      * Configure options.
      *
-     * @param OptionsResolver $resolver
-     *
-     * @return void
+     * @param OptionsResolver $resolver The resolver for options
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

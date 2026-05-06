@@ -79,7 +79,7 @@ class Todo
     /**
      * is Done?.
      *
-     * @return bool|null
+     * @return bool|null isDone
      */
     public function isDone(): ?bool
     {
@@ -91,7 +91,7 @@ class Todo
      *
      * @param bool|null $isDone isDone
      *
-     * @return Todo
+     * @return Todo Todo
      */
     public function setIsDone(bool $isDone): static
     {
@@ -103,7 +103,7 @@ class Todo
     /**
      * Getter for author.
      *
-     * @return User|null
+     * @return User|null User
      */
     public function getAuthor(): ?User
     {
@@ -115,7 +115,7 @@ class Todo
      *
      * @param User|null $author Author
      *
-     * @return Todo
+     * @return Todo Todo
      */
     public function setAuthor(?User $author): static
     {

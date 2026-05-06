@@ -38,7 +38,7 @@ class UserController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page
+     * @param int $page Page
      *
      * @return Response HTTP response
      */
@@ -53,7 +53,7 @@ class UserController extends AbstractController
     /**
      * View action.
      *
-     * @param User $user
+     * @param User $user User entity
      *
      * @return Response HTTP response
      */
@@ -66,7 +66,7 @@ class UserController extends AbstractController
     /**
      * Create action.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
      * @return Response HTTP response
      */
@@ -174,7 +174,7 @@ class UserController extends AbstractController
      *
      * @param User $user User entity
      *
-     * @return Response HTTP eesponse
+     * @return Response HTTP Response
      */
     #[Route('/{id}/grant-admin', name: 'user_grant_admin', methods: ['POST'])]
     public function grantAdmin(User $user): Response

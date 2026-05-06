@@ -45,8 +45,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      *
-     * @param PasswordAuthenticatedUserInterface $user
-     * @param string                             $newHashedPassword
+     * @param PasswordAuthenticatedUserInterface $user              User
+     * @param string                             $newHashedPassword Hashed password
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -84,9 +84,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Find user by email.
      *
-     * @param string $email
+     * @param string $email Email
      *
-     * @return User|null
+     * @return User|null User
      */
     public function findOneByEmail(string $email): ?User
     {

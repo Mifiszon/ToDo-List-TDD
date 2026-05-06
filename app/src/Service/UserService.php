@@ -75,9 +75,7 @@ class UserService implements UserServiceInterface
     /**
      * Delete user.
      *
-     * @param User $user
-     *
-     * @return void
+     * @param User $user user entity
      */
     public function delete(User $user): void
     {
@@ -87,8 +85,8 @@ class UserService implements UserServiceInterface
     /**
      * Change password.
      *
-     * @param User   $user
-     * @param string $newPassword
+     * @param User   $user        User entity
+     * @param string $newPassword New password
      */
     public function changePassword(User $user, string $newPassword): void
     {
@@ -102,8 +100,8 @@ class UserService implements UserServiceInterface
     /**
      * Register.
      *
-     * @param User   $user
-     * @param string $plainPassword
+     * @param User   $user          User entity
+     * @param string $plainPassword Plain password
      *
      * @throws \Exception
      */

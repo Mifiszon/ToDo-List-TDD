@@ -250,7 +250,7 @@ class Note
     /**
      * Getter for author.
      *
-     * @return User|null
+     * @return User|null User
      */
     public function getAuthor(): ?User
     {
@@ -260,9 +260,9 @@ class Note
     /**
      * Setter for author.
      *
-     * @param User|null $author
+     * @param User|null $author Author
      *
-     * @return $this
+     * @return $this User
      */
     public function setAuthor(?User $author): static
     {

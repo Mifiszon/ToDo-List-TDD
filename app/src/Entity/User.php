@@ -161,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Getter for avatar.
      *
-     * @return Avatar|null
+     * @return Avatar|null Avatar
      */
     public function getAvatar(): ?Avatar
     {
@@ -171,9 +171,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Setter for avatar.
      *
-     * @param Avatar|null $avatar
+     * @param Avatar|null $avatar Avatar
      *
-     * @return $this
+     * @return $this Avatar
      */
     public function setAvatar(?Avatar $avatar): static
     {

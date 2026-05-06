@@ -22,8 +22,8 @@ class RegistrationController extends AbstractController
     /**
      * Register action.
      *
-     * @param Request     $request     Request
-     * @param UserService $userService User service
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return Response
      *

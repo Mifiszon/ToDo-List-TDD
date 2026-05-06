@@ -23,6 +23,7 @@
         </testsuite>
     </testsuites>
 
+
     <coverage includeUncoveredFiles="true">
         <report>
             <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="false"/>
@@ -47,5 +48,6 @@
     </source>
 
     <extensions>
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     </extensions>
 </phpunit>

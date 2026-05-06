@@ -234,8 +234,8 @@
         <source>title.note_list</source>
         <target>Note list</target>
       </trans-unit>
-      <trans-unit id="title.note_view">
-        <source>title.note_view</source>
+      <trans-unit id="title.note_details">
+        <source>title.note_details</source>
         <target>Note details #%id%</target>
       </trans-unit>
       <trans-unit id="title.note_create">

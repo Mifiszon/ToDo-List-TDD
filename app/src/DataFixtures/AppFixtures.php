@@ -11,11 +11,12 @@ use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class AppFixtures.
- *
  */
 class AppFixtures extends Fixture
 {
     /**
+     * Fixtures loader.
+     *
      * @param ObjectManager $manager
      *
      * @return void

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Note list input filters DTO.
  */

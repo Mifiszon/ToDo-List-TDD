@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Avatar type.
  */
@@ -37,18 +38,13 @@ class AvatarType extends AbstractType
                 'mapped' => false,
                 'label' => 'label.avatar',
                 'required' => true,
-                'constraints' => new Image(
-                    [
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpeg',
-                            'image/pjpeg',
-                            'image/jpeg',
-                            'image/pjpeg',
-                        ],
-                    ]
-                ),
+                'constraints' => new Image(maxSize: '1024k', mimeTypes: [
+                    'image/png',
+                    'image/jpeg',
+                    'image/pjpeg',
+                    'image/jpeg',
+                    'image/pjpeg',
+                ]),
             ]
         );
     }

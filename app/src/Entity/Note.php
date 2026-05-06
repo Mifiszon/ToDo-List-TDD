@@ -89,7 +89,7 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
-    private ?User $author;
+    private ?User $author = null;
 
     /**
      * Note status.
@@ -248,6 +248,8 @@ class Note
     }
 
     /**
+     * Getter for author.
+     *
      * @return User|null
      */
     public function getAuthor(): ?User
@@ -256,6 +258,8 @@ class Note
     }
 
     /**
+     * Setter for author.
+     *
      * @param User|null $author
      *
      * @return $this

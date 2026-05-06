@@ -22,7 +22,9 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -42,6 +44,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
      * @param PasswordAuthenticatedUserInterface $user
      * @param string                             $newHashedPassword
      */
@@ -59,9 +62,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Save entity.
      *
-     * @param User $user
-     *
-     * @return void
+     * @param User $user User
      */
     public function save(User $user): void
     {
@@ -72,9 +73,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Delete entity.
      *
-     * @param User $user
-     *
-     * @return void
+     * @param User $user User
      */
     public function delete(User $user): void
     {
@@ -83,6 +82,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * Find user by email.
+     *
      * @param string $email
      *
      * @return User|null

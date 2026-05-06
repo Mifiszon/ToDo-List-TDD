@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Avatar entity.
  */
@@ -23,8 +24,6 @@ class Avatar
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,22 +32,18 @@ class Avatar
 
     /**
      * User.
-     *
-     * @var User|null
      */
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'avatar', cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\Type(User::class)]
-    private ?User $user;
+    private ?User $user = null;
 
     /**
      * Filename.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 191)]
     #[Assert\Type('string')]
-    private ?string $filename;
+    private ?string $filename = null;
 
     /**
      * Getter for Id.

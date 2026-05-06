@@ -7,7 +7,6 @@
 namespace App\Repository;
 
 use App\Entity\Avatar;
-use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -32,8 +31,6 @@ class AvatarRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Avatar $avatar
-     *
-     * @return void
      */
     public function save(Avatar $avatar): void
     {
@@ -45,8 +42,6 @@ class AvatarRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Avatar $avatar
-     *
-     * @return void
      */
     public function delete(Avatar $avatar): void
     {

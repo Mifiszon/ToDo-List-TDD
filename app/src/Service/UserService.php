@@ -73,6 +73,8 @@ class UserService implements UserServiceInterface
     }
 
     /**
+     * Delete user.
+     *
      * @param User $user
      *
      * @return void
@@ -84,6 +86,7 @@ class UserService implements UserServiceInterface
 
     /**
      * Change password.
+     *
      * @param User   $user
      * @param string $newPassword
      */

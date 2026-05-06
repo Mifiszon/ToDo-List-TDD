@@ -1,7 +1,9 @@
 <?php
+
 /**
  * Category Voter.
  */
+
 namespace App\Security\Voter;
 
 use App\Entity\Category;
@@ -57,10 +59,11 @@ final class CategoryVoter extends Voter
      * @param string         $attribute Permission name
      * @param mixed          $subject   Object
      * @param TokenInterface $token     Security token
+     * @param Vote|null      $vote      Vote
      *
      * @return bool Vote result
      */
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {

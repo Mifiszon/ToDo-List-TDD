@@ -94,6 +94,8 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Profile.
+     *
      * @return Response
      */
     #[Route('/profile', name: 'user_profile', methods: ['GET'])]

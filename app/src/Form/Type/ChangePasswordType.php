@@ -22,8 +22,6 @@ class ChangePasswordType extends AbstractType
     /**
      * @param FormBuilderInterface $builder Form builder
      * @param array                $options Array
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -42,6 +40,8 @@ class ChangePasswordType extends AbstractType
     }
 
     /**
+     * Configure options.
+     *
      * @param OptionsResolver $resolver
      *
      * @return void

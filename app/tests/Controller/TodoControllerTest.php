@@ -89,7 +89,7 @@ class TodoControllerTest extends WebTestCase
         $entityManager->flush();
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $todo->getId());
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$todo->getId());
         $result = $this->httpClient->getResponse();
 
         // then
@@ -117,7 +117,7 @@ class TodoControllerTest extends WebTestCase
         $this->httpClient->loginUser($otherUser);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $todo->getId() . '/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$todo->getId().'/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -126,6 +126,11 @@ class TodoControllerTest extends WebTestCase
 
     /**
      * Create user helper.
+     *
+     * @param array  $roles User roles
+     * @param string $email User email
+     *
+     * @return User User entity
      */
     private function createUser(array $roles, string $email): User
     {

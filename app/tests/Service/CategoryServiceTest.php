@@ -6,6 +6,9 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\User;
+use App\Entity\Note;
+use App\Entity\Enum\NoteStatus;
 use App\Entity\Category;
 use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
@@ -175,17 +178,17 @@ class CategoryServiceTest extends KernelTestCase
         $category->setTitle('Category with notes');
         $this->categoryService->save($category);
 
-        $user = new \App\Entity\User();
+        $user = new User();
         $user->setEmail('test_user@example.com');
         $user->setPassword('password');
         $this->entityManager->persist($user);
 
-        $note = new \App\Entity\Note();
+        $note = new Note();
         $note->setTitle('Test Note');
         $note->setComment('Content');
         $note->setCategory($category);
         $note->setAuthor($user);
-        $note->setStatus(\App\Entity\Enum\NoteStatus::ACTIVE);
+        $note->setStatus(NoteStatus::ACTIVE);
         $this->entityManager->persist($note);
 
         $this->entityManager->flush();

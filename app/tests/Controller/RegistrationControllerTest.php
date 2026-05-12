@@ -41,8 +41,7 @@ class RegistrationControllerTest extends WebTestCase
      */
     public function testRegisterRouteAnonymousUser(): void
     {
-        //given
-
+        // given
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
@@ -79,7 +78,7 @@ class RegistrationControllerTest extends WebTestCase
     public function testSuccessfulRegistration(): void
     {
         // given
-        $email = 'new_user_' . uniqid() . '@example.com';
+        $email = 'new_user_'.uniqid().'@example.com';
         $crawler = $this->httpClient->request('GET', self::TEST_ROUTE);
 
         $form = $crawler->filter('button[type="submit"], input[type="submit"]')->form([

@@ -79,7 +79,7 @@ class UserControllerTest extends WebTestCase
         $this->httpClient->loginUser($admin);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $admin->getId() . '/delete');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$admin->getId().'/delete');
 
         // then
         $this->assertResponseRedirects(self::TEST_ROUTE);
@@ -98,7 +98,7 @@ class UserControllerTest extends WebTestCase
         $this->httpClient->loginUser($admin);
 
         // when
-        $this->httpClient->request('POST', self::TEST_ROUTE . '/' . $userToUpgrade->getId() . '/grant-admin');
+        $this->httpClient->request('POST', self::TEST_ROUTE.'/'.$userToUpgrade->getId().'/grant-admin');
 
         // then
         $this->assertResponseRedirects(self::TEST_ROUTE);
@@ -109,6 +109,11 @@ class UserControllerTest extends WebTestCase
 
     /**
      * Create user helper.
+     *
+     * @param array  $roles User roles
+     * @param string $email User email
+     *
+     * @return User User entity
      */
     private function createUser(array $roles, string $email): User
     {

@@ -100,12 +100,12 @@ class NoteControllerTest extends WebTestCase
         $entityManager->flush();
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $note->getId());
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$note->getId());
         $result = $this->httpClient->getResponse();
 
         // then
         $this->assertEquals(200, $result->getStatusCode());
-        $this->assertSelectorTextContains('html h1', '#' . $note->getId());
+        $this->assertSelectorTextContains('html h1', '#'.$note->getId());
         $this->assertSelectorTextContains('html', 'Detailed content of the note');
     }
 
@@ -136,7 +136,7 @@ class NoteControllerTest extends WebTestCase
         $this->httpClient->loginUser($otherUser);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $note->getId() . '/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$note->getId().'/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -145,6 +145,7 @@ class NoteControllerTest extends WebTestCase
 
     /**
      * Create user helper.
+     *
      * @param array  $roles User roles
      * @param string $email User email
      *

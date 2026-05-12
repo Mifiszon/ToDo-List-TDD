@@ -65,6 +65,7 @@ class AvatarServiceTest extends KernelTestCase
             unlink($path);
         }
     }
+
     /**
      * Test delete avatar.
      */
@@ -89,6 +90,7 @@ class AvatarServiceTest extends KernelTestCase
 
     /**
      * Helper to create User.
+     *
      * @param string $email User Email
      *
      * @return User User entity

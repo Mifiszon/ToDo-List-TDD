@@ -71,7 +71,7 @@ class TagService implements TagServiceInterface
             $result = $this->noteRepository->countByTag($tag);
 
             return !($result > 0);
-        } catch (NoResultException | NonUniqueResultException) {
+        } catch (NoResultException|NonUniqueResultException) {
             return false;
         }
     }

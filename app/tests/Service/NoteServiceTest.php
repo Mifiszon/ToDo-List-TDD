@@ -155,6 +155,7 @@ class NoteServiceTest extends KernelTestCase
 
     /**
      * Helper to create User.
+     *
      * @param string $email User Email
      *
      * @return User User entity
@@ -172,6 +173,7 @@ class NoteServiceTest extends KernelTestCase
 
     /**
      * Helper to create Category.
+     *
      * @param string $title Category Title
      *
      * @return Category Category entity

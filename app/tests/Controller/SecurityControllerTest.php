@@ -126,6 +126,7 @@ class SecurityControllerTest extends WebTestCase
 
     /**
      * Create user helper.
+     *
      * @param string $email User email
      *
      * @return User User entity

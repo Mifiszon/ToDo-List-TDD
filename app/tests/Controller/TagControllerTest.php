@@ -88,7 +88,7 @@ class TagControllerTest extends WebTestCase
         $tagRepository->save($expectedTag);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $expectedTag->getId());
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$expectedTag->getId());
         $result = $this->httpClient->getResponse();
 
         // then
@@ -132,7 +132,7 @@ class TagControllerTest extends WebTestCase
         $this->httpClient->loginUser($user);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $tag->getId() . '/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$tag->getId().'/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -140,7 +140,131 @@ class TagControllerTest extends WebTestCase
     }
 
     /**
+     * Test create tag.
+     */
+    public function testCreateTag(): void
+    {
+        // given
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value]);
+        $this->httpClient->loginUser($adminUser);
+        $tagTitle = 'New Tag '.uniqid();
+
+        // when
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/create');
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form([
+            'tag' => [
+                'title' => $tagTitle,
+            ],
+        ]);
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+        $this->httpClient->followRedirect();
+        $this->assertSelectorExists('.alert-success');
+
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+        $createdTag = $tagRepository->findOneBy(['title' => $tagTitle]);
+        $this->assertNotNull($createdTag);
+    }
+
+    /**
+     * Test edit tag.
+     */
+    public function testEditTag(): void
+    {
+        // given
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value]);
+        $this->httpClient->loginUser($adminUser);
+
+        $tag = new Tag();
+        $tag->setTitle('Old Tag Title');
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+        $tagRepository->save($tag);
+        $newTitle = 'Updated Tag Title '.uniqid();
+
+        // when
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$tag->getId().'/edit');
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form([
+            'tag' => [
+                'title' => $newTitle,
+            ],
+        ]);
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+        $updatedTag = $tagRepository->find($tag->getId());
+        $this->assertEquals($newTitle, $updatedTag->getTitle());
+    }
+
+    /**
+     * Test delete tag.
+     */
+    public function testDeleteTag(): void
+    {
+        // given
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value]);
+        $this->httpClient->loginUser($adminUser);
+
+        $tag = new Tag();
+        $tag->setTitle('Tag To Delete');
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+        $tagRepository->save($tag);
+        $tagId = $tag->getId();
+
+        // when
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$tagId.'/delete');
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form();
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+        $deletedTag = $tagRepository->find($tagId);
+        $this->assertNull($deletedTag);
+    }
+
+    /**
+     * Test delete tag with notes.
+     */
+    public function testDeleteTagWithNotes(): void
+    {
+        // given
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value]);
+        $this->httpClient->loginUser($adminUser);
+
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+
+        $tag = new Tag();
+        $tag->setTitle('Busy Tag');
+        $entityManager->persist($tag);
+
+        $note = new \App\Entity\Note();
+        $note->setTitle('Note for tag');
+        $note->setAuthor($adminUser);
+        $note->addTag($tag);
+        $note->setStatus(\App\Entity\Enum\NoteStatus::ACTIVE);
+
+        $category = new \App\Entity\Category();
+        $category->setTitle('Cat for tag test');
+        $entityManager->persist($category);
+        $note->setCategory($category);
+
+        $entityManager->persist($note);
+        $entityManager->flush();
+
+        // when
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$tag->getId().'/delete');
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+        $this->httpClient->followRedirect();
+        $this->assertSelectorExists('.alert-warning');
+    }
+
+    /**
      * Create user helper with unique email.
+     *
      * @param array $roles User roles
      *
      * @return User User entity
@@ -149,7 +273,7 @@ class TagControllerTest extends WebTestCase
     {
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
-        $user->setEmail('tag_test_' . uniqid() . '@example.com');
+        $user->setEmail('tag_test_'.uniqid().'@example.com');
         $user->setRoles($roles);
         $user->setPassword(
             $passwordHasher->hashPassword($user, 'p@55w0rd')

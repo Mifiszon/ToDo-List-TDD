@@ -6,6 +6,8 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Note;
+use App\Entity\Enum\NoteStatus;
 use App\Entity\Category;
 use App\Entity\Enum\UserRole;
 use App\Entity\User;
@@ -81,10 +83,10 @@ class CategoryControllerTest extends WebTestCase
         // given
         $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value]);
         $this->httpClient->loginUser($adminUser);
-        $categoryTitle = 'New Category ' . uniqid();
+        $categoryTitle = 'New Category '.uniqid();
 
         // when
-        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/create');
         $form = $crawler->filter('button[type="submit"], input[type="submit"]')->first()->form([
             'category' => [
                 'title' => $categoryTitle,
@@ -117,7 +119,7 @@ class CategoryControllerTest extends WebTestCase
         $categoryRepository->save($expectedCategory);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $expectedCategory->getId());
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$expectedCategory->getId());
         $result = $this->httpClient->getResponse();
 
         // then
@@ -156,10 +158,10 @@ class CategoryControllerTest extends WebTestCase
         $category->setTitle('Old Title');
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
-        $newTitle = 'Updated Title ' . uniqid();
+        $newTitle = 'Updated Title '.uniqid();
 
         // when
-        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/edit');
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$category->getId().'/edit');
 
         $form = $crawler->filter('button[type="submit"], input[type="submit"]')->first()->form([
             'category' => [
@@ -191,7 +193,7 @@ class CategoryControllerTest extends WebTestCase
         $this->httpClient->loginUser($user);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$category->getId().'/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -214,7 +216,7 @@ class CategoryControllerTest extends WebTestCase
         $categoryId = $category->getId();
 
         // when
-        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $categoryId . '/delete');
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$categoryId.'/delete');
         $form = $crawler->filter('button[type="submit"], input[type="submit"]')->first()->form();
         $this->httpClient->submit($form);
 
@@ -239,16 +241,16 @@ class CategoryControllerTest extends WebTestCase
         $category->setTitle('Busy Category');
         $entityManager->persist($category);
 
-        $note = new \App\Entity\Note();
+        $note = new Note();
         $note->setTitle('Test Note');
         $note->setAuthor($adminUser);
         $note->setCategory($category);
-        $note->setStatus(\App\Entity\Enum\NoteStatus::ACTIVE);
+        $note->setStatus(NoteStatus::ACTIVE);
         $entityManager->persist($note);
         $entityManager->flush();
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/delete');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$category->getId().'/delete');
 
         // then
         $this->assertResponseRedirects(self::TEST_ROUTE);
@@ -258,6 +260,7 @@ class CategoryControllerTest extends WebTestCase
 
     /**
      * Create user.
+     *
      * @param array $roles User roles
      *
      * @return User User entity
@@ -266,7 +269,7 @@ class CategoryControllerTest extends WebTestCase
     {
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
-        $user->setEmail('user_' . uniqid() . '@example.com');
+        $user->setEmail('user_'.uniqid().'@example.com');
         $user->setRoles($roles);
         $user->setPassword(
             $passwordHasher->hashPassword($user, 'p@55w0rd')

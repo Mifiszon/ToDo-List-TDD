@@ -46,11 +46,11 @@ class AvatarControllerTest extends WebTestCase
         $user = $this->createUser([UserRole::ROLE_USER->value], 'avatar_fixture@example.com');
         $this->httpClient->loginUser($user);
 
-        $fixturePath = __DIR__ . '/../Fixtures/avatar.png';
+        $fixturePath = __DIR__.'/../Fixtures/avatar.png';
         if (!file_exists($fixturePath)) {
-            $this->fail('Plik nie istnieje w: ' . $fixturePath);
+            $this->fail('Not found: '.$fixturePath);
         }
-        $tempPath = sys_get_temp_dir() . '/avatar_test.png';
+        $tempPath = sys_get_temp_dir().'/avatar_test.png';
         copy($fixturePath, $tempPath);
 
         $uploadedFile = new UploadedFile(
@@ -61,10 +61,10 @@ class AvatarControllerTest extends WebTestCase
             true
         );
 
-        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/create');
 
         // when
-        $form = $crawler->filter('form[name="avatar"]')->selectButton('Zapisz')->form();
+        $form = $crawler->filter('button, input[type="submit"]')->first()->form();
         $form['avatar[file]']->upload($uploadedFile);
         $this->httpClient->submit($form);
 
@@ -97,7 +97,7 @@ class AvatarControllerTest extends WebTestCase
         $this->httpClient->loginUser($hacker);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $avatar->getId() . '/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$avatar->getId().'/edit');
 
         // then
         $this->assertEquals(403, $this->httpClient->getResponse()->getStatusCode());
@@ -105,6 +105,7 @@ class AvatarControllerTest extends WebTestCase
 
     /**
      * Create user helper.
+     *
      * @param array  $roles User roles
      * @param string $email User email
      *

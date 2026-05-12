@@ -148,5 +148,67 @@ class CategoryServiceTest extends KernelTestCase
         $this->assertEquals($expectedResultSize, $result->count());
     }
 
-    // other tests for paginated list
+    /**
+     * Test can be deleted.
+     */
+    public function testCanBeDeleted(): void
+    {
+        // given
+        $category = new Category();
+        $category->setTitle('Test Category');
+        $this->categoryService->save($category);
+
+        // when
+        $result = $this->categoryService->canBeDeleted($category);
+
+        // then
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test can be deleted (category contains notes).
+     */
+    public function testCanBeDeletedNegative(): void
+    {
+        // given
+        $category = new Category();
+        $category->setTitle('Category with notes');
+        $this->categoryService->save($category);
+
+        $user = new \App\Entity\User();
+        $user->setEmail('test_user@example.com');
+        $user->setPassword('password');
+        $this->entityManager->persist($user);
+
+        $note = new \App\Entity\Note();
+        $note->setTitle('Test Note');
+        $note->setComment('Content');
+        $note->setCategory($category);
+        $note->setAuthor($user);
+        $note->setStatus(\App\Entity\Enum\NoteStatus::ACTIVE);
+        $this->entityManager->persist($note);
+
+        $this->entityManager->flush();
+
+        // when
+        $result = $this->categoryService->canBeDeleted($category);
+
+        // then
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test find by id (non-existing category).
+     */
+    public function testFindByIdNonExisting(): void
+    {
+        // given
+        $nonExistingId = 999999;
+
+        // when
+        $result = $this->categoryService->findOneById($nonExistingId);
+
+        // then
+        $this->assertNull($result);
+    }
 }

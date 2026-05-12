@@ -3,87 +3,78 @@
 {% block title %}{{ 'title.todo_list'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.todo_list'|trans }}</h1>
-
-    <div class="mb-3">
-        <a href="{{ url('todo_create') }}" class="btn btn-success">
-            <i class="bi bi-plus-lg"></i> {{ 'action.create'|trans }}
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="display-6 fw-bold text-secondary">
+            <i class="bi bi-pin-angle-fill text-danger"></i> {{ 'title.todo_list'|trans }}
+        </h1>
+        <a href="{{ url('todo_create') }}" class="btn btn-dark rounded-0 px-4 shadow-sm">
+            {{ 'action.create'|trans }} <i class="bi bi-plus-lg"></i>
         </a>
     </div>
 
     {% if pagination is defined and pagination.items|length %}
-
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'todo.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.todo_title'|trans, 'todo.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'todo.isDone') }}</th>
-                <th>{{ 'label.author'|trans }}</th>
-                <th>{{ 'label.actions'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
             {% for todo in pagination.items %}
-                <tr>
-                    <td>{{ todo.id }}</td>
-                    <td class="{{ todo.isDone ? 'text-decoration-line-through text-muted' : '' }}">
-                        {{ todo.title }}
-                    </td>
-                    <td>
-                        <span class="badge {{ todo.isDone ? 'bg-danger' : 'bg-success' }}">
-                            {{ (todo.isDone ? 'label.status_done' : 'label.status_active')|trans }}
-                        </span>
-                    </td>
-                    <td>{{ todo.author.email }}</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            {% if is_granted('TODO_VIEW', todo) %}
-                                <a class="btn btn-primary" href="{{ url('todo_view', {id: todo.id}) }}" title="{{ 'action.view'|trans }}">
-                                    {{ 'action.view'|trans }}
-                                </a>
-                            {% endif %}
-                            {% if is_granted('TODO_EDIT', todo) %}
-                                <a class="btn btn-warning" href="{{ url('todo_edit', {id: todo.id}) }}" title="{{ 'action.edit'|trans }}">
-                                    {{ 'action.edit'|trans }}
-                                </a>
-                            {% endif %}
-                            {% if is_granted('TODO_DELETE', todo) %}
-                                <a class="btn btn-danger" href="{{ url('todo_delete', {id: todo.id}) }}" title="{{ 'action.delete'|trans }}">
-                                    {{ 'action.delete'|trans }}
-                                </a>
-                            {% endif %}
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                <div class="col">
+                    <div class="p-4 shadow-sm h-100 position-relative d-flex flex-column"
+                         style="background: {{ todo.isDone ? '#f1f3f5' : '#fff9c4' }};
+                             border: 1px solid rgba(0,0,0,0.08);
+                             transform: rotate({{ loop.index is odd ? '-1.5' : '1.5' }}deg);">
 
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
+                        {# Pinezka - zostaje na stałe na górze #}
+                        <div class="position-absolute top-0 start-50 translate-middle">
+                            <i class="bi bi-circle-fill fs-5 text-danger shadow-sm"></i>
+                        </div>
+
+                        <div class="mb-3 mt-2">
+                            <div class="h5 mb-1 {{ todo.isDone ? 'text-decoration-line-through text-muted fw-normal' : 'fw-bold text-dark' }}">
+                                {{ todo.title }}
+                            </div>
+                            <div class="text-muted" style="font-size: 0.75rem;">
+                                <i class="bi bi-person-fill"></i> {{ todo.author.email|split('@')[0] }}
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-3 border-top border-dark border-opacity-10 d-flex justify-content-between align-items-center">
+                            <span class="small fw-bold {{ todo.isDone ? 'text-success' : 'text-primary' }}">
+                                {{ (todo.isDone ? 'label.status_done' : 'label.status_active')|trans }}
+                            </span>
+
+                            <div class="btn-group">
+                                <a class="p-1 text-dark" href="{{ url('todo_view', {id: todo.id}) }}" title="{{ 'action.view'|trans }}">
+                                    <i class="bi bi-search"></i>
+                                </a>
+                                {% if is_granted('TODO_EDIT', todo) %}
+                                    <a class="p-1 text-dark" href="{{ url('todo_edit', {id: todo.id}) }}" title="{{ 'action.edit'|trans }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('TODO_DELETE', todo) %}
+                                    <a class="p-1 text-danger" href="{{ url('todo_delete', {id: todo.id}) }}" title="{{ 'action.delete'|trans }}">
+                                        <i class="bi bi-x-circle-fill"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 
-        <div class="mt-3">
-            <a href="{{ url('note_index') }}" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_notes'|trans }}
-            </a>
+        <div class="navigation d-flex justify-content-center mt-5">
+            {{ knp_pagination_render(pagination) }}
         </div>
 
     {% else %}
-        {% include 'default/_single_alert_message.html.twig' with {
-            type: 'warning',
-            message: 'message.empty_list'|trans
-        } %}
-
-        <div class="mt-3">
-            <a href="{{ url('note_index') }}" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left"></i> {{ 'action.back_to_notes'|trans }}
-            </a>
+        <div class="text-center py-5 bg-light rounded border border-dashed">
+            <i class="bi bi-journal-x fs-1 text-muted"></i>
+            <p class="mt-3 text-muted">{{ 'message.empty_list'|trans }}</p>
         </div>
     {% endif %}
+
+    <div class="mt-5 pt-3 border-top">
+        <a href="{{ url('note_index') }}" class="btn btn-link text-decoration-none text-muted small p-0">
+            <i class="bi bi-arrow-left-short"></i> {{ 'action.back_to_notes'|trans }}
+        </a>
+    </div>
 {% endblock %}

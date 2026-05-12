@@ -1,0 +1,184 @@
+<?php
+/**
+ * Tag service tests.
+ */
+
+namespace App\Tests\Service;
+
+use App\Entity\Tag;
+use App\Service\TagService;
+use App\Service\TagServiceInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+/**
+ * Class TagServiceTest.
+ */
+class TagServiceTest extends KernelTestCase
+{
+    /**
+     * Entity manager.
+     */
+    private ?EntityManagerInterface $entityManager;
+
+    /**
+     * Tag service.
+     */
+    private ?TagServiceInterface $tagService;
+
+    /**
+     * Set up test.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function setUp(): void
+    {
+        $container = static::getContainer();
+        $this->entityManager = $container->get('doctrine.orm.entity_manager');
+        $this->tagService = $container->get(TagService::class);
+    }
+
+    /**
+     * Test save.
+     *
+     * @throws ORMException
+     */
+    public function testSave(): void
+    {
+        // given
+        $expectedTag = new Tag();
+        $expectedTag->setTitle('Test Tag');
+
+        // when
+        $this->tagService->save($expectedTag);
+
+        // then
+        $expectedTagId = $expectedTag->getId();
+        $resultTag = $this->entityManager->createQueryBuilder()
+            ->select('tag')
+            ->from(Tag::class, 'tag')
+            ->where('tag.id = :id')
+            ->setParameter(':id', $expectedTagId, Types::INTEGER)
+            ->getQuery()
+            ->getSingleResult();
+
+        $this->assertEquals($expectedTag, $resultTag);
+    }
+
+    /**
+     * Test delete.
+     *
+     * @throws OptimisticLockException|ORMException
+     */
+    public function testDelete(): void
+    {
+        // given
+        $tagToDelete = new Tag();
+        $tagToDelete->setTitle('Test Tag to Delete');
+        $this->entityManager->persist($tagToDelete);
+        $this->entityManager->flush();
+        $deletedTagId = $tagToDelete->getId();
+
+        // when
+        $this->tagService->delete($tagToDelete);
+
+        // then
+        $resultTag = $this->entityManager->createQueryBuilder()
+            ->select('tag')
+            ->from(Tag::class, 'tag')
+            ->where('tag.id = :id')
+            ->setParameter(':id', $deletedTagId, Types::INTEGER)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $this->assertNull($resultTag);
+    }
+
+    /**
+     * Test find by id.
+     *
+     * @throws ORMException
+     */
+    public function testFindById(): void
+    {
+        // given
+        $expectedTag = new Tag();
+        $expectedTag->setTitle('Test Tag ID');
+        $this->entityManager->persist($expectedTag);
+        $this->entityManager->flush();
+        $expectedTagId = $expectedTag->getId();
+
+        // when
+        $resultTag = $this->tagService->findOneById($expectedTagId);
+
+        // then
+        $this->assertEquals($expectedTag, $resultTag);
+    }
+
+    /**
+     * Test find by title.
+     */
+    public function testFindOneByTitle(): void
+    {
+        // given
+        $expectedTag = new Tag();
+        $expectedTag->setTitle('Unique Title');
+        $this->entityManager->persist($expectedTag);
+        $this->entityManager->flush();
+
+        // when
+        $resultTag = $this->tagService->findOneByTitle('Unique Title');
+
+        // then
+        $this->assertEquals($expectedTag, $resultTag);
+    }
+
+    /**
+     * Test get paginated list.
+     */
+    public function testGetPaginatedList(): void
+    {
+        // given
+        $page = 1;
+        $dataSetSize = 3;
+        $expectedResultSize = 3;
+
+        $counter = 0;
+        while ($counter < $dataSetSize) {
+            $tag = new Tag();
+            $tag->setTitle('Test Tag #'.$counter);
+            $this->tagService->save($tag);
+
+            ++$counter;
+        }
+
+        // when
+        $result = $this->tagService->getPaginatedList($page);
+
+        // then
+        $this->assertEquals($expectedResultSize, $result->count());
+    }
+
+    /**
+     * Test can be deleted.
+     */
+    public function testCanBeDeleted(): void
+    {
+        // given
+        $tag = new Tag();
+        $tag->setTitle('Deletable Tag');
+        $this->tagService->save($tag);
+
+        // when
+        $result = $this->tagService->canBeDeleted($tag);
+
+        // then
+        $this->assertTrue($result);
+    }
+}

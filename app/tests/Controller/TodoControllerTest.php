@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Todo Controller test.
  */
@@ -116,7 +117,7 @@ class TodoControllerTest extends WebTestCase
         $this->httpClient->loginUser($otherUser);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$todo->getId().'/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $todo->getId() . '/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then

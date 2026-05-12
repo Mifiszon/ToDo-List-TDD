@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File upload service tests.
  */
@@ -51,9 +52,9 @@ class FileUploadServiceTest extends KernelTestCase
         // then
         $this->assertStringContainsString('original-name', $resultFilename);
         if (null !== $expectedExtension) {
-            $this->assertStringEndsWith('.' . $expectedExtension, $resultFilename);
+            $this->assertStringEndsWith('.'.$expectedExtension, $resultFilename);
         }
-        $targetPath = $this->fileUploadService->getTargetDirectory() . '/' . $resultFilename;
+        $targetPath = $this->fileUploadService->getTargetDirectory().'/'.$resultFilename;
         $this->assertFileExists($targetPath);
 
         if (file_exists($targetPath)) {

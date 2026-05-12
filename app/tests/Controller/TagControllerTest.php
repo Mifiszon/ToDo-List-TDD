@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag Controller test.
  */
@@ -131,7 +132,7 @@ class TagControllerTest extends WebTestCase
         $this->httpClient->loginUser($user);
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$tag->getId().'/edit');
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $tag->getId() . '/edit');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -148,7 +149,7 @@ class TagControllerTest extends WebTestCase
     {
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
-        $user->setEmail('tag_test_'.uniqid().'@example.com');
+        $user->setEmail('tag_test_' . uniqid() . '@example.com');
         $user->setRoles($roles);
         $user->setPassword(
             $passwordHasher->hashPassword($user, 'p@55w0rd')

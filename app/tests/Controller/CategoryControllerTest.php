@@ -272,7 +272,7 @@ class CategoryControllerTest extends WebTestCase
         $user->setEmail('user_'.uniqid().'@example.com');
         $user->setRoles($roles);
         $user->setPassword(
-            $passwordHasher->hashPassword($user, 'p@55w0rd')
+            $passwordHasher->hashPassword($user, 'p12345')
         );
         $userRepository = static::getContainer()->get(UserRepository::class);
         $userRepository->save($user);

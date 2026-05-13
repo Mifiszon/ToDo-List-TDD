@@ -6,6 +6,9 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Note;
+use App\Entity\Enum\NoteStatus;
+use App\Entity\Category;
 use App\Entity\Enum\UserRole;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -239,13 +242,13 @@ class TagControllerTest extends WebTestCase
         $tag->setTitle('Busy Tag');
         $entityManager->persist($tag);
 
-        $note = new \App\Entity\Note();
+        $note = new Note();
         $note->setTitle('Note for tag');
         $note->setAuthor($adminUser);
         $note->addTag($tag);
-        $note->setStatus(\App\Entity\Enum\NoteStatus::ACTIVE);
+        $note->setStatus(NoteStatus::ACTIVE);
 
-        $category = new \App\Entity\Category();
+        $category = new Category();
         $category->setTitle('Cat for tag test');
         $entityManager->persist($category);
         $note->setCategory($category);

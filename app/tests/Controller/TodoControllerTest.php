@@ -125,6 +125,104 @@ class TodoControllerTest extends WebTestCase
     }
 
     /**
+     * Test create todo via form.
+     */
+    public function testCreateTodo(): void
+    {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'todo_creator@example.com');
+        $this->httpClient->loginUser($user);
+        $todoTitle = 'New Task '.uniqid();
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/create');
+
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form([
+            'todo' => [
+                'title' => $todoTitle,
+            ],
+        ]);
+
+        // when
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+        $this->httpClient->followRedirect();
+        $this->assertSelectorExists('.alert-success');
+
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+        $createdTodo = $entityManager->getRepository(Todo::class)->findOneBy(['title' => $todoTitle]);
+
+        $this->assertNotNull($createdTodo);
+        $this->assertEquals($user->getId(), $createdTodo->getAuthor()->getId());
+    }
+
+    /**
+     * Test edit todo by its author.
+     */
+    public function testEditTodoByAuthor(): void
+    {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'todo_author@example.com');
+        $this->httpClient->loginUser($user);
+
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+        $todo = new Todo();
+        $todo->setTitle('Old Todo Title');
+        $todo->setAuthor($user);
+        $entityManager->persist($todo);
+        $entityManager->flush();
+
+        $updatedTitle = 'Updated Todo Title '.uniqid();
+
+        // when
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$todo->getId().'/edit');
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form([
+            'todo' => [
+                'title' => $updatedTitle,
+            ],
+        ]);
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+
+        $entityManager->clear();
+        $refreshedTodo = $entityManager->getRepository(Todo::class)->find($todo->getId());
+
+        $this->assertEquals($updatedTitle, $refreshedTodo->getTitle());
+    }
+
+    /**
+     * Test delete todo.
+     */
+    public function testDeleteTodo(): void
+    {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'todo_deleter@example.com');
+        $this->httpClient->loginUser($user);
+
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+        $todo = new Todo();
+        $todo->setTitle('To Be Deleted');
+        $todo->setAuthor($user);
+        $entityManager->persist($todo);
+        $entityManager->flush();
+        $todoId = $todo->getId();
+
+        // when
+        $crawler = $this->httpClient->request('GET', self::TEST_ROUTE.'/'.$todoId.'/delete');
+        $form = $crawler->filter('button[type="submit"], input[type="submit"]')->last()->form();
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects(self::TEST_ROUTE);
+
+        $entityManager->clear();
+        $deletedTodo = $entityManager->getRepository(Todo::class)->find($todoId);
+        $this->assertNull($deletedTodo);
+    }
+
+    /**
      * Create user helper.
      *
      * @param array  $roles User roles

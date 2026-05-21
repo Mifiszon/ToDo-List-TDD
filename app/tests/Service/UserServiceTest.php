@@ -69,6 +69,7 @@ class UserServiceTest extends KernelTestCase
         $this->assertEquals('new_user@example.com', $resultUser->getEmail());
         $this->assertContains('ROLE_USER', $resultUser->getRoles());
         $this->assertNotEquals($password, $resultUser->getPassword());
+        $this->assertNotEmpty(\App\Entity\Enum\UserRole::cases());
     }
 
     /**

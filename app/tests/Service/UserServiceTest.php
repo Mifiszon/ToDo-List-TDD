@@ -6,6 +6,7 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use App\Service\UserService;
 use App\Service\UserServiceInterface;
@@ -69,7 +70,7 @@ class UserServiceTest extends KernelTestCase
         $this->assertEquals('new_user@example.com', $resultUser->getEmail());
         $this->assertContains('ROLE_USER', $resultUser->getRoles());
         $this->assertNotEquals($password, $resultUser->getPassword());
-        $this->assertNotEmpty(\App\Entity\Enum\UserRole::cases());
+        $this->assertNotEmpty(UserRole::cases());
     }
 
     /**

@@ -186,7 +186,7 @@ class NoteControllerTest extends WebTestCase
     }
 
     /**
-     * Test edit note via NoteType by its author.
+     * Test edit note by its author.
      */
     public function testEditNote(): void
     {
